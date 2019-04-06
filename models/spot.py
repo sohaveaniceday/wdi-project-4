@@ -21,7 +21,7 @@ class Spot(db.Model, BaseModel):
     secondary=categories_spots, backref='spots')
 
 class SpotSchema(ma.ModelSchema):
-    comments = fields.Nested('SpotSchema', many=True, exclude=('spot',))
+    comments = fields.Nested('CommentSchema', many=True, exclude=('spot',))
     categories = fields.Nested('CategorySchema', many=True)
     class Meta:
         model = Spot
