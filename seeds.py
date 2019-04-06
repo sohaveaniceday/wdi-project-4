@@ -2,10 +2,27 @@ from app import app, db
 
 from models.spot import Spot, Comment
 from models.category import Category
+from models.user import UserSchema
+user_schema = UserSchema()
 
 with app.app_context():
     db.drop_all() #drops all our tables
     db.create_all() #remake our tables
+
+    jack, errors = user_schema.load({
+        'username': 'beanslord',
+        'email': 'jack@email.com',
+        'password': 'password',
+        'password_confirmation': 'password'
+    })
+
+    if errors:
+        raise Exception(errors)
+
+
+    db.session.add(jack)
+
+
 
     skating = Category(name='skating')
     graphic = Category(name='graphic')
