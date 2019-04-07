@@ -4,7 +4,6 @@ from models.spot import Spot, SpotSchema
 spot_schema = SpotSchema()
 api = Blueprint('spots', __name__)
 
-#index route
 @api.route('/spots', methods=['GET'])
 def index():
     spots = Spot.query.all()

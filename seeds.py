@@ -1,7 +1,7 @@
 from app import app, db
-
 from models.spot import Spot, Comment
 from models.category import Category
+from models.artist import Artist
 from models.user import UserSchema
 user_schema = UserSchema()
 
@@ -13,7 +13,9 @@ with app.app_context():
         'username': 'beanslord',
         'email': 'jack@email.com',
         'password': 'password',
-        'password_confirmation': 'password'
+        'password_confirmation': 'password',
+        'locationlat': 51.526313,
+        'locationlon': -0.078687
     })
 
     if errors:
@@ -22,18 +24,23 @@ with app.app_context():
 
     db.session.add(jack)
 
-
+    banksy = Artist(
+    name='Banksy',
+    image='https://media.wmagazine.com/photos/594d6daa0870db45df5a5d9a/4:3/w_1536/GettyImages-501590118.jpg',
+    bio='Banksy is an anonymous England-based street artist, vandal, political activist, and film director.'
+    )
 
     skating = Category(name='skating')
     graphic = Category(name='graphic')
     political = Category(name='political')
     professional = Category(name='space')
 
-    banksy = Spot(
+    banksyspot = Spot(
     name='Banksy\'s \'Designated Graffiti Area\'',
     locationlat=51.526313,
     locationlon=-0.078687,
-    categories=[political, professional]
+    categories=[political, professional],
+    artists=[banksy]
     )
     graffititunnel = Spot(
     name='The Graffiti Tunnel',
@@ -42,18 +49,19 @@ with app.app_context():
     categories=[graphic, skating]
     )
 
-    comment1 = Comment(content='I love this place', spot=banksy)
+    comment1 = Comment(content='I love this place', spot=banksyspot)
     comment2 = Comment(content='This place sucks', spot=graffititunnel)
+
+    db.session.add(banksy)
 
     db.session.add(skating)
     db.session.add(graphic)
     db.session.add(political)
     db.session.add(professional)
-    # add the planets to the session
-    db.session.add(banksy)
+
+    db.session.add(banksyspot)
     db.session.add(graffititunnel)
     db.session.add(comment1)
     db.session.add(comment2)
 
-    # commit that data to the database
     db.session.commit()

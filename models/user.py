@@ -11,6 +11,8 @@ class User(db.Model, BaseModel):
     username = db.Column(db.String(28), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password_hash = db.Column(db.String(128))
+    locationlat = db.Column(db.Float, nullable=False)
+    locationlon = db.Column(db.Float, nullable=False)
 
     @hybrid_property
     def password(self):
@@ -25,6 +27,9 @@ class User(db.Model, BaseModel):
 
 
 class UserSchema(ma.ModelSchema, BaseSchema):
+
+    # coming soon
+    # spots = fields.Nested('SpotSchema', many=True, exclude=('users',))
 
     @validates_schema
     #pylint: disable=R0201
