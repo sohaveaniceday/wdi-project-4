@@ -29,7 +29,8 @@ class User(db.Model, BaseModel):
 class UserSchema(ma.ModelSchema, BaseSchema):
 
     # coming soon
-    # spots = fields.Nested('SpotSchema', many=True, exclude=('users',))
+    spots = fields.Nested('SpotSchema', many=True,
+    exclude=('artists', 'comments', 'categories', 'user'))
 
     @validates_schema
     #pylint: disable=R0201

@@ -4,7 +4,7 @@ from app import db
 
 api = Blueprint('artists', __name__)
 
-artist_schema = ArtistSchema()
+artist_schema = ArtistSchema(many=True)
 
 @api.route('/artists', methods=['GET'])
 def index():

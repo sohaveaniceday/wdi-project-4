@@ -4,7 +4,8 @@ from app import db
 
 api = Blueprint('categories', __name__)
 
-category_schema = CategorySchema()
+category_schema = CategorySchema(many=True)
+
 
 @api.route('/categories', methods=['GET'])
 def index():

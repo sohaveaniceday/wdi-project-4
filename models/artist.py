@@ -11,6 +11,12 @@ class Artist(db.Model, BaseModel):
     bio = db.Column(db.String(120), nullable=False)
 
 class ArtistSchema(ma.ModelSchema):
-    # spots = fields.Nested('SpotSchema', many=True, exclude=('artists', 'comments'))
+
+    spots = fields.Nested(
+    'SpotSchema', many=True,
+    exclude=('artists', 'comments', 'categories', 'user')
+    )
+
+
     class Meta:
         model = Artist

@@ -10,7 +10,10 @@ class Category(db.Model, BaseModel):
 
 class CategorySchema(ma.ModelSchema):
 
-    spots = fields.Nested('SpotSchema', many=True, exclude=('categories',))
+    spots = fields.Nested(
+    'SpotSchema', many=True,
+    exclude=('categories', 'comments', 'user', 'artists')
+    )
 
     class Meta:
         model = Category
