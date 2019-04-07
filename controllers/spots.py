@@ -43,7 +43,7 @@ def delete(spot_id):
 # @api.route('/spots/<int:spot_id>/comments', methods=['POST'])
 # def createcomment(spot_id):
 #     spot = Spot.query.get(spot_id)
-#     comment, errors = comment_schema.load(request.get_json(spot))
+#     comment, errors = comment_schema.load(request.get_json())
 #     if errors:
 #         return jsonify(errors, 422)
 #     comment.save()

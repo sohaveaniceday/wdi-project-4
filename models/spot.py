@@ -3,7 +3,6 @@ from marshmallow import fields
 from .base import BaseModel
 from .category import Category, CategorySchema
 from .artist import Artist, ArtistSchema
-# coming soon
 from .user import User, UserSchema
 
 categories_spots = db.Table('categories_spots',
@@ -16,7 +15,6 @@ artists_spots = db.Table('artists_spots',
     db.Column('spot_id', db.Integer, db.ForeignKey('spots.id'), primary_key=True)
 )
 
-# coming soon
 users_spots = db.Table('users_spots',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
     db.Column('spot_id', db.Integer, db.ForeignKey('spots.id'), primary_key=True)
@@ -41,11 +39,11 @@ class Spot(db.Model, BaseModel):
 
 
 class SpotSchema(ma.ModelSchema):
-    comments = fields.Nested('CommentSchema', many=True, exclude=('spot',))
-    categories = fields.Nested('CategorySchema', many=True)
-    artists = fields.Nested('ArtistSchema', many=True)
-    # coming soon
-    user = fields.Nested('UserSchema',)
+    comments = fields.Nested('CommentSchema', many=True, exclude=('spots',))
+    images = fields.Nested('ImageSchema', many=True, exclude=('spots',))
+    categories = fields.Nested('CategorySchema', many=True, exclude=('spots',))
+    artists = fields.Nested('ArtistSchema', many=True, exclude=('spots',))
+    user = fields.Nested('UserSchema', exclude=('spots',))
 
     class Meta:
         model = Spot
@@ -62,3 +60,16 @@ class CommentSchema(ma.ModelSchema):
 
     class Meta:
         model = Comment
+
+class Image(db.Model, BaseModel):
+
+    __tablename__ = 'images'
+
+    path = db.Column(db.Text, nullable=False)
+    spot_id = db.Column(db.Integer, db.ForeignKey('spots.id'))
+    spot = db.relationship('Spot', backref='images')
+
+class ImageSchema(ma.ModelSchema):
+
+    class Meta:
+        model = Image

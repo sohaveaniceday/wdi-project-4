@@ -1,5 +1,5 @@
 from app import app, db
-from models.spot import Spot, Comment
+from models.spot import Spot, Comment, Image
 from models.category import Category
 from models.artist import Artist
 from models.user import UserSchema
@@ -54,6 +54,10 @@ with app.app_context():
     comment1 = Comment(content='I love this place', spot=banksyspot)
     comment2 = Comment(content='This place sucks', spot=graffititunnel)
 
+    image1 = Image(path='https://lh5.googleusercontent.com/p/AF1QipMtzak-8tSN965UrRkbbw2ZvPYA_5njAmSCX6vZ=w203-h152-k-no', spot=banksyspot)
+    image2 = Image(path='https://lh5.googleusercontent.com/p/AF1QipPTFVahZU8IKx47m-XxgV0h5sY7HDS4Vbb9lfm1=s1031-k-no', spot=graffititunnel)
+    image3 = Image(path='https://lh5.googleusercontent.com/p/AF1QipNnZUE8vreCSKA1U_E61Qhu5NFl85WLjezbuYH_=s1031-k-no', spot=graffititunnel)
+
     db.session.add(banksy)
 
     db.session.add(skating)
@@ -65,5 +69,9 @@ with app.app_context():
     db.session.add(graffititunnel)
     db.session.add(comment1)
     db.session.add(comment2)
+
+    db.session.add(image1)
+    db.session.add(image2)
+    db.session.add(image3)
 
     db.session.commit()
