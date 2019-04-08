@@ -35,7 +35,10 @@ class Spot(db.Model, BaseModel):
 
 
 class SpotSchema(ma.ModelSchema):
-    comments = fields.Nested('CommentSchema', many=True, only=('content', 'id', 'created_at'))
+    comments = fields.Nested(
+    'CommentSchema', many=True,
+    only=('content', 'id', 'created_at', 'creator')
+    )
     images = fields.Nested('ImageSchema', many=True, only=('path', 'id'))
     categories = fields.Nested('CategorySchema', many=True, only=('name', 'id'))
     artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id'))
@@ -51,8 +54,12 @@ class Comment(db.Model, BaseModel):
     content = db.Column(db.Text, nullable=False)
     spot_id = db.Column(db.Integer, db.ForeignKey('spots.id'))
     spot = db.relationship('Spot', backref='comments')
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    creator = db.relationship('User', backref='created_comments')
 
 class CommentSchema(ma.ModelSchema):
+    creator = fields.Nested("UserSchema", only=('id', 'username'))
+
 
     class Meta:
         model = Comment
@@ -64,6 +71,7 @@ class Image(db.Model, BaseModel):
     path = db.Column(db.Text, nullable=False)
     spot_id = db.Column(db.Integer, db.ForeignKey('spots.id'))
     spot = db.relationship('Spot', backref='images')
+
 
 class ImageSchema(ma.ModelSchema):
 

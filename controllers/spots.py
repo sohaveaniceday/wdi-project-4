@@ -49,12 +49,24 @@ def delete(spot_id):
     spot.remove()
     return '', 204
 
-# Coming soon
 @api.route('/spots/<int:spot_id>/comments', methods=['POST'])
-def createcomment(spot_id):
+@secure_route
+def comment_create(spot_id):
+    data = request.get_json()
     spot = Spot.query.get(spot_id)
-    comment, errors = comment_schema.load(request.get_json())
+    comment, errors = comment_schema.load(request.get_json(data))
     if errors:
         return jsonify(errors), 422
+    comment.spot = spot
+    comment.creator = g.current_user
     comment.save()
     return comment_schema.jsonify(comment)
+
+@api.route('/spots/<int:spot_id>/comments/<int:comment_id>', methods=['DELETE'])
+@secure_route
+def comment_delete(**kwargs):
+    comment = Comment.query.get(kwargs['comment_id'])
+    if comment.creator != g.current_user:
+        return jsonify({'message': 'Unauthorized'}), 401
+    comment.remove()
+    return '', 204
