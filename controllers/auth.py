@@ -23,3 +23,16 @@ def register():
     user.save()
 
     return jsonify({'message': 'Registration Successful'}), 201
+
+@api.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    user = User.query.filter_by(email=data.get('email')).first()
+
+    if not user or not user.validate_password(data.get('password', '')):
+        return jsonify({'message': 'Unauthorized'}), 401
+
+    return jsonify({
+    'message': 'Welcome back {}!'.format(user.username),
+    'token': user.generate_token()
+    })

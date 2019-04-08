@@ -12,7 +12,7 @@ class CategorySchema(ma.ModelSchema):
 
     spots = fields.Nested(
     'SpotSchema', many=True,
-    exclude=('categories', 'comments', 'user', 'artists')
+    exclude=('categories', 'comments', 'creator', 'artists')
     )
 
     class Meta:

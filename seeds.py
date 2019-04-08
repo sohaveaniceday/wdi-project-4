@@ -41,14 +41,14 @@ with app.app_context():
     locationlon=-0.078687,
     categories=[political, professional],
     artists=[banksy],
-    user=jack
+    creator=jack
     )
     graffititunnel = Spot(
     name='The Graffiti Tunnel',
     locationlat=51.501938,
     locationlon=-0.115688,
     categories=[graphic, skating],
-    user=jack
+    creator=jack
     )
 
     comment1 = Comment(content='I love this place', spot=banksyspot)

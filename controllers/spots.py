@@ -1,5 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 from models.spot import Spot, SpotSchema, Comment, CommentSchema
+from lib.secure_route import secure_route
+
 
 spot_schema = SpotSchema()
 comment_schema = CommentSchema()
@@ -17,25 +19,33 @@ def show(spot_id):
     return spot_schema.jsonify(spot), 200
 
 @api.route('/spots', methods=['POST'])
+@secure_route
 def create():
     spot, errors = spot_schema.load(request.get_json())
     if errors:
         return jsonify(errors), 422
+    spot.creator = g.current_user
     spot.save()
     return spot_schema.jsonify(spot)
 
 @api.route('/spots/<int:spot_id>', methods=['PUT'])
+@secure_route
 def update(spot_id):
     spot = Spot.query.get(spot_id)
     spot, errors = spot_schema.load(request.get_json(), instance=spot, partial=True)
     if errors:
         return jsonify(errors), 422
+    if spot.creator != g.current_user:
+        return jsonify({'message': 'Unauthorized'}), 401
     spot.save()
     return spot_schema.jsonify(spot)
 
 @api.route('/spots/<int:spot_id>', methods=['DELETE'])
+@secure_route
 def delete(spot_id):
     spot = Spot.query.get(spot_id)
+    if spot.creator != g.current_user:
+        return jsonify({'message': 'Unauthorized'}), 401
     spot.remove()
     return '', 204
 
