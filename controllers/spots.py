@@ -20,7 +20,7 @@ def show(spot_id):
 def create():
     spot, errors = spot_schema.load(request.get_json())
     if errors:
-        return jsonify(errors, 422)
+        return jsonify(errors), 422
     spot.save()
     return spot_schema.jsonify(spot)
 
@@ -29,7 +29,7 @@ def update(spot_id):
     spot = Spot.query.get(spot_id)
     spot, errors = spot_schema.load(request.get_json(), instance=spot, partial=True)
     if errors:
-        return jsonify(errors, 422)
+        return jsonify(errors), 422
     spot.save()
     return spot_schema.jsonify(spot)
 
@@ -40,11 +40,11 @@ def delete(spot_id):
     return '', 204
 
 # Coming soon
-# @api.route('/spots/<int:spot_id>/comments', methods=['POST'])
-# def createcomment(spot_id):
-#     spot = Spot.query.get(spot_id)
-#     comment, errors = comment_schema.load(request.get_json())
-#     if errors:
-#         return jsonify(errors, 422)
-#     comment.save()
-#     return comment_schema.jsonify(comment)
+@api.route('/spots/<int:spot_id>/comments', methods=['POST'])
+def createcomment(spot_id):
+    spot = Spot.query.get(spot_id)
+    comment, errors = comment_schema.load(request.get_json())
+    if errors:
+        return jsonify(errors), 422
+    comment.save()
+    return comment_schema.jsonify(comment)

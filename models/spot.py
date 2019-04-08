@@ -39,11 +39,11 @@ class Spot(db.Model, BaseModel):
 
 
 class SpotSchema(ma.ModelSchema):
-    comments = fields.Nested('CommentSchema', many=True, exclude=('spots',))
-    images = fields.Nested('ImageSchema', many=True, exclude=('spots',))
-    categories = fields.Nested('CategorySchema', many=True, exclude=('spots',))
-    artists = fields.Nested('ArtistSchema', many=True, exclude=('spots',))
-    user = fields.Nested('UserSchema', exclude=('spots',))
+    comments = fields.Nested('CommentSchema', many=True, only=('content', 'id', 'created_at'))
+    images = fields.Nested('ImageSchema', many=True, only=('path', 'id'))
+    categories = fields.Nested('CategorySchema', many=True, only=('name', 'id'))
+    artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id'))
+    user = fields.Nested('UserSchema', only=('username', 'id'))
 
     class Meta:
         model = Spot
