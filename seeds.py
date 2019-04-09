@@ -51,12 +51,12 @@ with app.app_context():
     creator=jack
     )
 
-    comment1 = Comment(content='I love this place', spot=banksyspot)
-    comment2 = Comment(content='This place sucks', spot=graffititunnel)
+    comment1 = Comment(content='I love this place', spot=banksyspot, creator=jack)
+    comment2 = Comment(content='This place sucks', spot=graffititunnel, creator=jack)
 
-    image1 = Image(path='https://lh5.googleusercontent.com/p/AF1QipMtzak-8tSN965UrRkbbw2ZvPYA_5njAmSCX6vZ=w203-h152-k-no', spot=banksyspot)
-    image2 = Image(path='https://lh5.googleusercontent.com/p/AF1QipPTFVahZU8IKx47m-XxgV0h5sY7HDS4Vbb9lfm1=s1031-k-no', spot=graffititunnel)
-    image3 = Image(path='https://lh5.googleusercontent.com/p/AF1QipNnZUE8vreCSKA1U_E61Qhu5NFl85WLjezbuYH_=s1031-k-no', spot=graffititunnel)
+    image1 = Image(path='https://lh5.googleusercontent.com/p/AF1QipMtzak-8tSN965UrRkbbw2ZvPYA_5njAmSCX6vZ=w203-h152-k-no', spot=banksyspot, creator=jack)
+    image2 = Image(path='https://lh5.googleusercontent.com/p/AF1QipPTFVahZU8IKx47m-XxgV0h5sY7HDS4Vbb9lfm1=s1031-k-no', spot=graffititunnel, creator=jack)
+    image3 = Image(path='https://lh5.googleusercontent.com/p/AF1QipNnZUE8vreCSKA1U_E61Qhu5NFl85WLjezbuYH_=s1031-k-no', spot=graffititunnel, creator=jack)
 
     db.session.add(banksy)
 

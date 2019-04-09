@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify, g
 from models.spot import Spot, SpotSchema, Comment, CommentSchema
 from lib.secure_route import secure_route
+from models.category import Category
+
 
 
 spot_schema = SpotSchema()
@@ -21,10 +23,13 @@ def show(spot_id):
 @api.route('/spots', methods=['POST'])
 @secure_route
 def create():
-    spot, errors = spot_schema.load(request.get_json())
+    data = request.get_json()
+    spot, errors = spot_schema.load(data)
     if errors:
         return jsonify(errors), 422
+    category = Category.query.get(data['category_id'])
     spot.creator = g.current_user
+    spot.categories.append(category)
     spot.save()
     return spot_schema.jsonify(spot)
 
@@ -70,3 +75,12 @@ def comment_delete(**kwargs):
         return jsonify({'message': 'Unauthorized'}), 401
     comment.remove()
     return '', 204
+
+@api.route('/spots/<int:spot_id>/like', methods=['PUT'])
+@secure_route
+def like(spot_id):
+    spot = Spot.query.get(spot_id)
+    user = g.current_user
+    spot.liked_by.append(user)
+    spot.save()
+    return spot_schema.jsonify(spot), 200

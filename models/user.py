@@ -59,8 +59,9 @@ class UserSchema(ma.ModelSchema, BaseSchema):
 
     password_confirmation = fields.String(required=True)
 
-    created_spots = fields.Nested('SpotsSchema', many=True)
+    created_spots = fields.Nested('SpotSchema', many=True)
     created_comments = fields.Nested('UserSchema', many=True)
+    likes = fields.Nested('SpotSchema', many=True, only=('id', 'name'))
 
 
     class Meta:

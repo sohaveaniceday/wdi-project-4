@@ -5,6 +5,11 @@ from .category import Category, CategorySchema
 from .artist import Artist, ArtistSchema
 from .user import User, UserSchema
 
+likes = db.Table(
+    'likes',
+    db.Column('spot_id', db.Integer, db.ForeignKey('spots.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
+)
 
 categories_spots = db.Table('categories_spots',
     db.Column('category_id', db.Integer, db.ForeignKey('categories.id'), primary_key=True),
@@ -32,6 +37,7 @@ class Spot(db.Model, BaseModel):
     secondary=artists_spots, backref='spots')
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     creator = db.relationship('User', backref='created_spots')
+    liked_by = db.relationship('User', secondary=likes, backref='likes')
 
 
 class SpotSchema(ma.ModelSchema):
@@ -43,6 +49,7 @@ class SpotSchema(ma.ModelSchema):
     categories = fields.Nested('CategorySchema', many=True, only=('name', 'id'))
     artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id'))
     creator = fields.Nested("UserSchema", only=('id', 'username'))
+    liked_by = fields.Nested('UserSchema', many=True, only=('id', 'username'))
 
     class Meta:
         model = Spot
@@ -71,9 +78,12 @@ class Image(db.Model, BaseModel):
     path = db.Column(db.Text, nullable=False)
     spot_id = db.Column(db.Integer, db.ForeignKey('spots.id'))
     spot = db.relationship('Spot', backref='images')
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    creator = db.relationship('User', backref='created_images')
 
 
 class ImageSchema(ma.ModelSchema):
+    creator = fields.Nested("UserSchema", only=('id', 'username'))
 
     class Meta:
         model = Image
