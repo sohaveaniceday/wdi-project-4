@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 const key = process.env.REACT_APP_OCD_API_KEY
+// const rp = require('request-promise')
+
 
 
 class Register extends React.Component {
@@ -31,10 +33,29 @@ class Register extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const data = {...this.state.data}
-    axios.post('api/register', data)
-      .then(() => this.props.history.push('/login'))
-      .catch(() => this.setState({ error: 'Invalid Input'}))
+    axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
+      .then(ocdResponse => {
+        console.log(ocdResponse)
+        const { lat, lng } = ocdResponse.data.results[0].geometry
+        axios({
+          url: 'api/register',
+          method: 'POST',
+          data: {
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            password_confirmation: data.passwordConfirmation,
+            locationlat: lat,
+            locationlon: lng
+          },
+          json: true
+        })
+          .then(() => this.props.history.push('/login'))
+          // .catch(() => this.setState({ error: 'Invalid Input'}))
+          .catch(() => console.log(data.username, data.email,  data.password, data.passwordConfirmation, lat, lng))
+      })
   }
+
 
   handleSelect(value) {
     let data = null
@@ -43,7 +64,6 @@ class Register extends React.Component {
   }
 
   render() {
-    console.log(key)
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
@@ -114,6 +134,8 @@ class Register extends React.Component {
                 />
               </div>
             </div>
+            <h6>*required fields</h6>
+            <br />
             <button className="btn waves-effect waves-light">Register</button>
           </div>
         </form>
