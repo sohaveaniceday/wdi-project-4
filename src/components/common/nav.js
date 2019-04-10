@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom'
 
 import Auth from '../../lib/auth'
 
+
+
 class Nav extends React.Component {
   constructor() {
     super()
@@ -18,12 +20,14 @@ class Nav extends React.Component {
 
 
 
+
   render() {
     return (
       <div>
         <nav>
           <div className="nav-wrapper">
-            <a href="#!" className="brand-logo">Logo</a>
+            {!Auth.isAuthenticated() && <Link className="brand-logo" to="/login">Logo</Link>}
+            {Auth.isAuthenticated() && <Link className="brand-logo" to="/home">Logo</Link>}
             <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
             <ul className="right hide-on-med-and-down">
               {Auth.isAuthenticated() && <li><a onClick={this.logout}>Logout</a></li>}

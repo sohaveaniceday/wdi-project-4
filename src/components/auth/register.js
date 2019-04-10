@@ -67,10 +67,10 @@ class Register extends React.Component {
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
-          <h2 className="title">Register</h2>
           <div className="row">
+            <h2 className="title col s6 offset-s3">Register</h2>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="username">Username*</label>
                 <input
                   className="validate"
@@ -83,7 +83,7 @@ class Register extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="email">Email*</label>
                 <input
                   className="validate"
@@ -96,7 +96,7 @@ class Register extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="password">Password*</label>
                 <input
                   className="validate"
@@ -109,7 +109,7 @@ class Register extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="passwordConfirmation">Password Confirmation*</label>
                 <input
                   className="validate"
@@ -122,7 +122,7 @@ class Register extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="location">Location*</label>
                 <input
                   className="validate"
@@ -134,9 +134,7 @@ class Register extends React.Component {
                 />
               </div>
             </div>
-            <h6>*required fields</h6>
-            <br />
-            <button className="btn waves-effect waves-light">Register</button>
+            <button className="btn waves-effect waves-light col s6 offset-s3">Register</button>
           </div>
         </form>
       </div>

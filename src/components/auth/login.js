@@ -39,10 +39,10 @@ class Login extends React.Component {
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
-          <h2 className="title">Login</h2>
           <div className="row">
+            <h2 className="title col s6 offset-s3">Login</h2>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="email">Email</label>
                 <input
                   className="validate"
@@ -55,7 +55,7 @@ class Login extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="password">Password</label>
                 <input
                   className="validate"
@@ -67,8 +67,7 @@ class Login extends React.Component {
                 />
               </div>
             </div>
-            <br />
-            <button className="btn waves-effect waves-light">Login</button>
+            <button className="btn waves-effect waves-light col s6 offset-s3">Login</button>
           </div>
         </form>
       </div>
