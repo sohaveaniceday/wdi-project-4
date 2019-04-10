@@ -56,7 +56,7 @@ class UserSchema(ma.ModelSchema, BaseSchema):
 
     password = fields.String(
         required=True,
-        validate=[validate.Length(min=8, max=50)]
+        validate=[validate.Length(min=4, max=50)]
     )
 
     password_confirmation = fields.String(required=True)

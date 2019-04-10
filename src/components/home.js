@@ -41,7 +41,7 @@ class Home extends React.Component {
     console.log('state', this.state)
     return(
       <div className="container">
-        <p className="title">Hello {this.state.data.username}</p>
+        {this.state.data.username && <h2>Hello {this.state.data.username}</h2>}
         <form onSubmit={this.handleSubmit}>
           <div className="input-field">
             <input id="search" type="search" required />
@@ -51,6 +51,7 @@ class Home extends React.Component {
           </div>
         </form>
         <div>
+          <h2>Graffiti Spots Near You</h2>
           {this.state.points &&
             <Map
               center={this.mapCenter}
@@ -59,6 +60,12 @@ class Home extends React.Component {
               locationlon={this.state.data.locationlon}
             />
           }
+        </div>
+        <div className="row">
+        </div>
+        <div className="row">
+        </div>
+        <div className="row">
         </div>
       </div>
     )
