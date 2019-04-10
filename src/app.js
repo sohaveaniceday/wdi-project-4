@@ -8,6 +8,7 @@ import 'materialize-css/dist/css/materialize.min.css'
 
 import Nav from './components/common/nav'
 import Register from './components/auth/register'
+import Login from './components/auth/login'
 import axios from 'axios'
 
 class App extends React.Component {
@@ -23,6 +24,7 @@ class App extends React.Component {
         <Nav />
         <Switch>
           <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
         </Switch>
       </Browser>
     )
