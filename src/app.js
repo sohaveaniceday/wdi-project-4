@@ -14,6 +14,7 @@ import Login from './components/auth/login'
 import Landing from './components/landing'
 import Home from './components/home'
 import SpotShow from './components/spots/spotShow'
+import SpotNew from './components/spots/spotNew'
 
 
 class App extends React.Component {
@@ -30,6 +31,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
+          <SecureRoute path="/spots/new" component={SpotNew} />
           <SecureRoute path="/spots/:id" component={SpotShow} />
           <SecureRoute exact path="/home" component={Home} />
           <Route exact path="/" component={Landing} />
