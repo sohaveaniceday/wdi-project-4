@@ -70,7 +70,7 @@ const SpotForm = ({ handleChange, handleSubmit, handleSelectArtist, handleSelect
 
           <div className="row">
             <div className="col s12">
-              <h6 htmlFor="artists">Select Artists</h6>
+              <h6 htmlFor="artists">Select Artists*</h6>
               <div>
                 <Select
                   id="artists"
@@ -86,7 +86,7 @@ const SpotForm = ({ handleChange, handleSubmit, handleSelectArtist, handleSelect
 
           <div className="row">
             <div className="field input-field col s12">
-              <h6 htmlFor="categories">Select Categories</h6>
+              <h6 htmlFor="categories">Select Categories*</h6>
               <div>
                 <Select
                   id="categories"
@@ -99,7 +99,7 @@ const SpotForm = ({ handleChange, handleSubmit, handleSelectArtist, handleSelect
               </div>
             </div>
           </div>
-          <button className="button pin-button is-rounded">Submit</button>
+          <button className="btn waves-effect waves-light">Submit</button>
         </div>
       </form>
     </div>

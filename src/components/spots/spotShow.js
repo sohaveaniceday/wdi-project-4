@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import Map from '../common/map'
 const moment = require('moment')
-import { Slider, Slide } from 'react-materialize'
+import { Slider, Slide, Modal, Button } from 'react-materialize'
 import Auth from '../../lib/auth'
 
 
@@ -14,6 +14,7 @@ class spotShow extends React.Component {
 
     this.handleDelete = this.handleDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleImageSubmit = this.handleImageSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
 
     this.mapCenter = { lat: 51.515, lng: -0.078 }
@@ -74,7 +75,24 @@ class spotShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }))
   }
 
+  handleImageSubmit() {
+    axios({
+      url: `/api/spots/${this.props.match.params.id}/images`,
+      method: 'POST',
+      headers: {Authorization: `Bearer ${Auth.getToken()}`},
+      data: {
+        path: this.state.comment.path
+      },
+      json: true
+    })
+      .then(() => {
+        document.location.reload(true)
+      })
+      .catch(err => this.setState({ errors: err.response.data.errors }))
+  }
+
   render() {
+    console.log(this.state.comment.path)
     return(
       <div className="container center-align">
         <div className="row">
@@ -100,6 +118,17 @@ class spotShow extends React.Component {
             <div className="row">
               {this.state.spot.locationlat &&
               <div className="s12 center-align">
+                <Modal header="Add Image" trigger={<Button>Add New Image</Button>}>
+                  <input
+                    className="validate"
+                    type="text"
+                    name="path"
+                    id="path"
+                    onChange={this.handleChange}
+                    value={this.state.comment.path || ''}
+                  />
+                  <button onClick={this.handleImageSubmit} className="btn waves-effect waves-light">Submit</button>
+                </Modal>
                 <h6>Created by {this.state.spot.creator.username}</h6>
                 <h5>Artists</h5>
                 <div>{this.state.spot.artists.map((artist, i) => (
@@ -123,7 +152,7 @@ class spotShow extends React.Component {
                 />
               </div>
             </div>
-            <button className="button pin-button is-rounded">Submit</button>
+            <button className="btn waves-effect waves-light">Submit</button>
           </form>
           <br />
           {this.state.spot.locationlat &&
