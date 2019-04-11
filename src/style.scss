@@ -9,8 +9,9 @@ html, body {
 }
 
 .map {
-  width: 70vw;
-  height: 70vh;
+  min-width: 30vw;
+  min-height: 400px;
+  height: 150px;
 }
 
 

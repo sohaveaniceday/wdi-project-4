@@ -13,6 +13,8 @@ import Register from './components/auth/register'
 import Login from './components/auth/login'
 import Landing from './components/landing'
 import Home from './components/home'
+import SpotShow from './components/spots/spotShow'
+
 
 class App extends React.Component {
   componentDidMount() {
@@ -28,6 +30,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
+          <SecureRoute path="/spots/:id" component={SpotShow} />
           <SecureRoute exact path="/home" component={Home} />
           <Route exact path="/" component={Landing} />
         </Switch>

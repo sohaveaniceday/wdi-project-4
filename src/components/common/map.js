@@ -32,8 +32,8 @@ class Map extends React.Component {
     this.markers.forEach(marker => marker.remove())
     this.markers = this.props.points.map(point => {
       const popup = new mapboxgl.Popup({ offset: 25, className: 'popup'})
-        .setText(
-          `Name: ${point.name}`)
+        .setHTML(
+          `<p>Name: ${point.name}<br /> <a href="/spots/${point.id}">See More</a></p>`)
       return new mapboxgl.Marker()
         .setLngLat({  lat: point.locationlat, lng: point.locationlon })
         .addTo(this.map)
