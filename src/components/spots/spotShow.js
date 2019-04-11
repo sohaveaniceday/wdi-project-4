@@ -3,10 +3,6 @@ import axios from 'axios'
 import Map from '../common/map'
 const moment = require('moment')
 import { Slider, Slide } from 'react-materialize'
-
-
-
-
 import Auth from '../../lib/auth'
 
 
@@ -14,7 +10,7 @@ class spotShow extends React.Component {
   constructor() {
     super()
 
-    this.state = { data: {}, errors: {}, user: {}, spot: {} }
+    this.state = { data: {}, errors: {}, user: {}, spot: {}, comment: {} }
 
     this.handleDelete = this.handleDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -39,7 +35,6 @@ class spotShow extends React.Component {
       params: { locationlat, locationlon, radius }
     })
       .then(res => {
-        console.log('res', res)
         this.setState({ points: res.data })
       })
   }
@@ -57,16 +52,16 @@ class spotShow extends React.Component {
   }
 
   handleChange({ target: { name, value } }) {
-    const data = {...this.state.data, [name]: value }
+    const comment = {...this.state.comment, [name]: value }
     const errors = {...this.state.errors, [name]: null }
-    this.setState({ data, errors })
-    console.log(this.state.data)
+    this.setState({ comment, errors })
+    console.log(this.state)
   }
 
   handleSubmit(e) {
     e.preventDefault()
     axios.post(`/api/spots/${this.props.match.params.id}/comments`,
-      this.state.data,
+      this.state.comment,
       { headers: {Authorization: `Bearer ${Auth.getToken()}`}})
       .then((res) => {
         if (res.data.errors) {
@@ -80,17 +75,11 @@ class spotShow extends React.Component {
   }
 
   render() {
-
-
-    console.log('thisone', this.state.spot)
-
     return(
       <div className="container center-align">
         <div className="row">
-
           <h2 className="col s12">{this.state.spot.name}</h2>
           <div className="row">
-
             <div className="col left-align l6 m12 s12">
               {this.state.spot.locationlat && this.state.points &&
                       <Map
@@ -106,39 +95,40 @@ class spotShow extends React.Component {
               <Slider>
                 {this.state.spot.images.map((image, i) => (
                   <Slide key={i} image={<img src={image.path} />}></Slide>))}
-
               </Slider>
-              <h6>Created by {this.state.spot.creator.username}</h6>
-              <h5>Artists</h5>
-              <div>{this.state.spot.artists.map((artist, i) => (
-                <span key={i}>{artist.name} / </span>))}</div>
-              <h5>Categories</h5>
-              <div>{this.state.spot.categories.map((category, i) => (
-                <span key={i}>{category.name} / </span>))}</div>
             </div>}
-          </div>
-          <div className="column is-full no-side-padding">
-            <div className="extra-padding has-background-white curve-border">
-              <h4 className="title is-4">Comments</h4>
-              <form onSubmit={this.handleSubmit}>
-                <div className="field">
-                  <label className="label">Make Comment</label>
-                  <div className="control">
-                    <textarea cols='60' rows='3'
-                      name="content"
-                      placeholder="Comment"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <button className="button pin-button is-rounded">Submit</button>
-              </form>
-              <br />
+            <div className="row">
               {this.state.spot.locationlat &&
-              <div>{this.state.spot.comments.map((comment, i) => (
-                <div key={i}><span>&quot;{comment.content}&quot;</span><p><strong>Written by {comment.creator.username}</strong> on {moment(comment.created_at).format('Do MMMM YYYY')} at {moment(comment.created_at).format('hh:mm')}</p><br /></div>))}</div>}
+              <div className="s12 center-align">
+                <h6>Created by {this.state.spot.creator.username}</h6>
+                <h5>Artists</h5>
+                <div>{this.state.spot.artists.map((artist, i) => (
+                  <span key={i}>{artist.name} / </span>))}</div>
+                <h5>Categories</h5>
+                <div>{this.state.spot.categories.map((category, i) => (
+                  <span key={i}>{category.name} / </span>))}</div>
+              </div>}
             </div>
           </div>
+          <h4 className="title is-4">Comments</h4>
+          <form onSubmit={this.handleSubmit}>
+            <div className="field">
+              <label className="label">Make Comment</label>
+              <div className="control">
+                <textarea cols='60' rows='3'
+                  name="content"
+                  placeholder="Comment"
+                  onChange={this.handleChange}
+                  value={this.state.comment.content || ''}
+                />
+              </div>
+            </div>
+            <button className="button pin-button is-rounded">Submit</button>
+          </form>
+          <br />
+          {this.state.spot.locationlat &&
+              <div>{this.state.spot.comments.map((comment, i) => (
+                <div key={i}><span>&quot;{comment.content}&quot;</span><p><strong>Written by {comment.creator.username}</strong> on {moment(comment.created_at).format('Do MMMM YYYY')} at {moment(comment.created_at).format('hh:mm')}</p><br /></div>))}</div>}
         </div>
       </div>
 
