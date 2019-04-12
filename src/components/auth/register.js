@@ -123,7 +123,7 @@ class Register extends React.Component {
             </div>
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <label htmlFor="location">Location*</label>
+                <label htmlFor="location">Postcode*</label>
                 <input
                   className="validate"
                   type="text"

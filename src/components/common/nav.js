@@ -35,6 +35,7 @@ class Nav extends React.Component {
             {Auth.isAuthenticated() && <Link className="brand-logo" to="/home"> Tag</Link>}
             <a href="#" data-target="mobile-demo" className="sidenav-trigger right"><i className="material-icons">menu</i></a>
             <ul className="right hide-on-med-and-down">
+              {Auth.isAuthenticated() && <li><Link to="/search">Search</Link></li>}
               {Auth.isAuthenticated() && <li><Link to="/spots/new">New Spot</Link></li>}
               {Auth.isAuthenticated() && <li><a onClick={this.logout}>Logout</a></li>}
               {!Auth.isAuthenticated() && <li><Link to="/register">Register</Link></li>}
@@ -44,6 +45,7 @@ class Nav extends React.Component {
         </nav>
 
         <ul className="sidenav right" ref={el => this.sidenav = el} id="mobile-demo">
+          {Auth.isAuthenticated() && <li><Link to="/search">Search</Link></li>}
           {Auth.isAuthenticated() && <li><Link to="/spots/new">New Spot</Link></li>}
           {Auth.isAuthenticated() && <li><a onClick={this.logout}>Logout</a></li>}
           {!Auth.isAuthenticated() && <li><Link to="/register">Register</Link></li>}

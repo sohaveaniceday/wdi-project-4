@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import Map from '../common/map'
 const moment = require('moment')
+// import M from 'materialize-css'
 import { Slider, Slide, Modal, Button } from 'react-materialize'
 import Auth from '../../lib/auth'
 
@@ -16,13 +17,14 @@ class spotShow extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImageSubmit = this.handleImageSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
-
     this.mapCenter = { lat: 51.515, lng: -0.078 }
-
-
   }
 
   componentDidMount() {
+    this.getThisSpot()
+  }
+
+  getThisSpot() {
     axios.get(`/api/spots/${this.props.match.params.id}`)
       .then(res => this.setState({ spot: res.data }))
     axios.get(`/api/users/${Auth.getPayload().sub}`)
@@ -68,8 +70,8 @@ class spotShow extends React.Component {
         if (res.data.errors) {
           this.setState({ sent: 'false' })
         } else {
-          document.location.reload(true)
-          this.setState({ sent: 'true', data: {} })
+          this.setState({ sent: 'true', comment: {} })
+          this.getThisSpot()
         }
       })
       .catch(err => this.setState({ errors: err.response.data.errors }))
@@ -86,13 +88,17 @@ class spotShow extends React.Component {
       json: true
     })
       .then(() => {
+        this.getThisSpot()
+        this.setState({ sent: 'true', comment: {} })
         document.location.reload(true)
+        // const instance = M.Modal.getInstance(this.modal)
+        // console.log(instance)
+        // instance.close()
       })
       .catch(err => this.setState({ errors: err.response.data.errors }))
   }
 
   render() {
-    console.log(this.state.comment.path)
     return(
       <div className="container center-align">
         <div className="row">
@@ -118,7 +124,7 @@ class spotShow extends React.Component {
             <div className="row">
               {this.state.spot.locationlat &&
               <div className="s12 center-align">
-                <Modal header="Add Image" trigger={<Button>Add New Image</Button>}>
+                <Modal header="Add Image" ref={el => this.modal = el} trigger={<Button>Add New Image</Button>}>
                   <input
                     className="validate"
                     type="text"
@@ -132,7 +138,18 @@ class spotShow extends React.Component {
                 <h6>Created by {this.state.spot.creator.username}</h6>
                 <h5>Artists</h5>
                 <div>{this.state.spot.artists.map((artist, i) => (
-                  <span key={i}>{artist.name} / </span>))}</div>
+                  <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span><a>{artist.name}</a> / </span>}>
+                    <div className="row valign-wrapper">
+                      <div className="col s2">
+                        <img src={artist.image} alt="" className="circle responsive-img" />
+                      </div>
+                      <div className="col s10">
+                        <span className="black-text">
+                          {artist.bio}
+                        </span>
+                      </div>
+                    </div>
+                  </Modal>))}</div>
                 <h5>Categories</h5>
                 <div>{this.state.spot.categories.map((category, i) => (
                   <span key={i}>{category.name} / </span>))}</div>
@@ -212,3 +229,5 @@ export default spotShow
 //     </h5>
 //   </Caption>
 // </Slide>
+
+// <span key={i}>{artist.name} / </span>))}</div>

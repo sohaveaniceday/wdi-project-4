@@ -1,5 +1,7 @@
+import 'mapbox-gl/dist/mapbox-gl.css'
 import React from 'react'
 import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from 'mapbox-gl-geocoder'
 //the below ensures we're not posting our token onlinw
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN
 
@@ -18,6 +20,10 @@ class Map extends React.Component {
       center: {lat: this.props.locationlat, lng: this.props.locationlon},
       zoom: 12
     })
+    this.map.addControl(new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    }))
 
     this.setMarkers()
   }
@@ -33,7 +39,18 @@ class Map extends React.Component {
     this.markers = this.props.points.map(point => {
       const popup = new mapboxgl.Popup({ offset: 25, className: 'popup'})
         .setHTML(
-          `<p>Name: ${point.name}<br /> <a href="/spots/${point.id}">See More</a></p>`)
+          `<a href="/spots/${point.id}">
+          <div class="valign-wrapper">
+              <div>
+          <img src=${point.images[0].path} alt="" class="rounded-img" />
+          </div>
+              <div>
+                <span class="black-text">
+                  <p><strong>${point.name}</strong></p>
+                </span>
+              </div>
+            </div>
+            </a>`)
       return new mapboxgl.Marker()
         .setLngLat({  lat: point.locationlat, lng: point.locationlon })
         .addTo(this.map)
