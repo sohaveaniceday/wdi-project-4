@@ -51,7 +51,7 @@ class spotShow extends React.Component {
   }
 
   isOwner() {
-    return Auth.isAuthenticated() && this.state.review.user._id === Auth.getPayload().sub
+    return Auth.isAuthenticated() && this.state.spot.creator.id === Auth.getPayload().sub
   }
 
   handleChange({ target: { name, value } }) {
@@ -99,6 +99,7 @@ class spotShow extends React.Component {
   }
 
   render() {
+    console.log('state', this.state)
     return(
       <div className="container center-align">
         <div className="row">
@@ -124,6 +125,7 @@ class spotShow extends React.Component {
             <div className="row">
               {this.state.spot.locationlat &&
               <div className="s12 center-align">
+                <h6>Created by {this.state.spot.creator.username}</h6>
                 <Modal header="Add Image" ref={el => this.modal = el} trigger={<Button>Add New Image</Button>}>
                   <input
                     className="validate"
@@ -135,7 +137,6 @@ class spotShow extends React.Component {
                   />
                   <button onClick={this.handleImageSubmit} className="btn waves-effect waves-light">Submit</button>
                 </Modal>
-                <h6>Created by {this.state.spot.creator.username}</h6>
                 <h5>Artists</h5>
                 <div>{this.state.spot.artists.map((artist, i) => (
                   <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span><a>{artist.name}</a> / </span>}>
@@ -155,6 +156,10 @@ class spotShow extends React.Component {
                   <span key={i}>{category.name} / </span>))}</div>
               </div>}
             </div>
+            {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect waves-light" href={`/spots/${this.state.spot.id}/edit`}>Edit
+            </a>}
+            {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect waves-light" onClick={this.handleDelete}>Delete
+            </a>}
           </div>
           <h4 className="title is-4">Comments</h4>
           <form onSubmit={this.handleSubmit}>

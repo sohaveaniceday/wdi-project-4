@@ -23,7 +23,7 @@ const SpotForm = ({ handleChange, handleSubmit, handleSelectArtist, handleSelect
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <label htmlFor="location">Location*</label>
+              <label htmlFor="location">Postcode*</label>
               <input
                 className="validate"
                 type="text"

@@ -15,6 +15,7 @@ import Landing from './components/landing'
 import Home from './components/home'
 import SpotShow from './components/spots/spotShow'
 import SpotNew from './components/spots/spotNew'
+import SpotEdit from './components/spots/spotEdit'
 import Search from './components/search/searchResults'
 
 
@@ -33,6 +34,7 @@ class App extends React.Component {
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           <SecureRoute path="/spots/new" component={SpotNew} />
+          <SecureRoute path="/spots/:id/edit" component={SpotEdit} />
           <SecureRoute path="/spots/:id" component={SpotShow} />
           <SecureRoute path="/search" component={Search} />
           <SecureRoute exact path="/home" component={Home} />
