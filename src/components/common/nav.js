@@ -29,10 +29,10 @@ class Nav extends React.Component {
   render() {
     return (
       <div>
-        <nav>
+        <nav className="red accent-3">
           <div className="nav-wrapper">
-            {!Auth.isAuthenticated() && <Link className="brand-logo" to="/login"> Tag</Link>}
-            {Auth.isAuthenticated() && <Link className="brand-logo" to="/home"> Tag</Link>}
+            {!Auth.isAuthenticated() && <Link className="brand-logo main-logo" to="/">&nbsp;&nbsp;Tag</Link>}
+            {Auth.isAuthenticated() && <Link className="brand-logo main-logo" to="/home">&nbsp;&nbsp;Tag</Link>}
             <a href="#" data-target="mobile-demo" className="sidenav-trigger right"><i className="material-icons">menu</i></a>
             <ul className="right hide-on-med-and-down">
               {Auth.isAuthenticated() && <li><Link to="/search">Search</Link></li>}

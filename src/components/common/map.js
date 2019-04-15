@@ -40,16 +40,16 @@ class Map extends React.Component {
       const popup = new mapboxgl.Popup({ offset: 25, className: 'popup'})
         .setHTML(
           `<a href="/spots/${point.id}">
-          <div class="valign-wrapper">
-              <div>
+          <div class="center-align">
+          <div class="center-align">
+            <span>
+              <p>&nbsp;&nbsp;${point.name}</p>
+            </span>
+          </div>
+              <div class="center-align">
           <img src=${point.images[0].path} alt="" class="rounded-img" />
           </div>
-              <div>
-                <span class="black-text">
-                  <p><strong>${point.name}</strong></p>
-                </span>
-              </div>
-            </div>
+          </div>
             </a>`)
       return new mapboxgl.Marker()
         .setLngLat({  lat: point.locationlat, lng: point.locationlon })

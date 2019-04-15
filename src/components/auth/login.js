@@ -40,7 +40,7 @@ class Login extends React.Component {
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           <div className="row">
-            <h2 className="title col s6 offset-s3">Login</h2>
+            <h2 className="col s6 offset-s3">Login</h2>
             <div className="row">
               <div className="input-field col s6 offset-s3">
                 <label htmlFor="email">Email</label>
@@ -67,7 +67,7 @@ class Login extends React.Component {
                 />
               </div>
             </div>
-            <button className="btn waves-effect waves-light col s6 offset-s3">Login</button>
+            <button className="btn waves-effect red accent-3 col s6 offset-s3">Login</button>
           </div>
         </form>
       </div>

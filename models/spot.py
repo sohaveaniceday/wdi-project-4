@@ -47,7 +47,7 @@ class SpotSchema(ma.ModelSchema):
     )
     images = fields.Nested('ImageSchema', many=True, only=('path', 'id'))
     categories = fields.Nested('CategorySchema', many=True, only=('name', 'id'))
-    artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id', 'bio', 'image'))
+    artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id', 'bio', 'image', 'spots'))
     creator = fields.Nested("UserSchema", only=('id', 'username'))
     liked_by = fields.Nested('UserSchema', many=True, only=('id', 'username'))
 

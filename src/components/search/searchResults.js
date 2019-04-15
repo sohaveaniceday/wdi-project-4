@@ -83,7 +83,7 @@ class Search extends React.Component {
           </div>
           <div className="row">
             <div className="col">
-              {this.state.searchResults && this.state.searchResults.map(searchResult => (
+              {this.state.searchResults && this.state.searchResults.slice(0).reverse().map(searchResult => (
                 <Link key={searchResult.id} to={`/spots/${searchResult.id}`}>
                   <div className="col s12 m6 l4">
                     <div className="card hoverable">
@@ -92,8 +92,17 @@ class Search extends React.Component {
                         <span className="card-title">{searchResult.name}</span>
                       </div>
                       <div className="card-content black-text">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
+                        <div>{searchResult.artists.map((artist, i) => (
+                          <h6 key={i}>By {artist.name}</h6>))}
+                        <br />
+                        <span><p><strong>Categories:</strong><br />
+                          <span>{searchResult.categories.map((category, i) => (
+                            <span key={i}>{category.name} / </span>))}
+                          </span>
+                        </p>
+                        </span>
+                        <br />
+                        </div>
                       </div>
                     </div>
                   </div>

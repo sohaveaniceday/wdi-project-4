@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from 'axios'
 const key = process.env.REACT_APP_OCD_API_KEY
-
+const filestackkey = process.env.FILESTACK_KEY
+import * as filestack from 'filestack-js'
+const client = filestack.init(filestackkey)
 
 import Auth from '../../lib/auth'
 import SpotForm from './spotForm'
 
-// import * as filestack from 'filestack-js'
-// const client = filestack.init('AYoVZLJZuQ2GNd6qd87SYz')
+
 
 class SpotNew extends React.Component {
   constructor() {
@@ -19,8 +20,8 @@ class SpotNew extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleSelectArtist = this.handleSelectArtist.bind(this)
     this.handleSelectCategory = this.handleSelectCategory.bind(this)
-    // this.updateState = this.updateState.bind(this)
-    // this.openModal = this.openModal.bind(this)
+    this.updateState = this.updateState.bind(this)
+    this.openModal = this.openModal.bind(this)
   }
 
   componentDidMount() {
@@ -70,7 +71,7 @@ class SpotNew extends React.Component {
               method: 'POST',
               headers: {Authorization: `Bearer ${Auth.getToken()}`},
               data: {
-                path: data.path
+                path: this.state.image
               },
               json: true
             })
@@ -101,49 +102,55 @@ class SpotNew extends React.Component {
     this.setState({ data })
   }
 
-  // openModal() {
-  //   const options = {
-  //     fromSources: ['local_file_system','instagram','facebook'],
-  //     accept: ['image/*'],
-  //     transformations: {
-  //       crop: true,
-  //       circle: true,
-  //       rotate: true
-  //     },
-  //     onFileUploadFinished: (file) => {
-  //       this.setState({ image: file.url })
-  //     },
-  //     onFileUploadFailed: (file, error) => {
-  //       console.log('file', file)
-  //       console.log('error', error)
-  //     }
-  //   }
-  //   client.picker(options).open()
-  // }
+  openModal() {
+    const options = {
+      fromSources: ['local_file_system','instagram','facebook'],
+      accept: ['image/*'],
+      transformations: {
+        crop: true,
+        circle: true,
+        rotate: true
+      },
+      onFileUploadFinished: (file) => {
+        this.setState({ image: file.url })
+      },
+      onFileUploadFailed: (file, error) => {
+        console.log('file', file)
+        console.log('error', error)
+      }
+    }
+    client.picker(options).open()
+  }
 
-  // updateState(url){
-  //   console.log('updateState running')
-  //   console.log(url)
-  // }
+  updateState(url){
+    console.log('updateState running')
+    console.log(url)
+  }
 
   render() {
     console.log(this.state)
 
     return (
       <div className="container">
-        <SpotForm
-          updateState={this.updateState}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          handleSelectArtist={this.handleSelectArtist}
-          handleSelectCategory={this.handleSelectCategory}
-          data={this.state.data}
-          categories={this.state.categories}
-          artists={this.state.artists}
-          errors={this.state.errors}
-          openModal={this.openModal}
-          image={this.state.image}
-        />
+        <div className="container">
+          <div className="container">
+            <h2>New Spot</h2>
+            <SpotForm
+              updateState={this.updateState}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              handleSelectArtist={this.handleSelectArtist}
+              handleSelectCategory={this.handleSelectCategory}
+              data={this.state.data}
+              categories={this.state.categories}
+              artists={this.state.artists}
+              errors={this.state.errors}
+              openModal={this.openModal}
+              image={this.state.image}
+            />
+            <br />
+          </div>
+        </div>
       </div>
     )
   }

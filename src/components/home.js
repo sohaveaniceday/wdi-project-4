@@ -41,9 +41,9 @@ class Home extends React.Component {
     console.log('state', this.state)
     return(
       <div className="container">
-        {this.state.data.username && <h2>Hello {this.state.data.username}!</h2>}
-        <div>
-          <h2 className="center-align">Graffiti Spots Near You</h2>
+        <h2 className="center-align">Street Art Near You</h2>
+        <div className="row">
+          <br />
           {this.state.points &&
             <Map
               center={this.mapCenter}
@@ -53,15 +53,11 @@ class Home extends React.Component {
             />
           }
         </div>
-        <div className="row">
-        </div>
-        <div className="row">
-        </div>
-        <div className="row">
-        </div>
       </div>
     )
   }
 }
 
 export default Home
+
+// {this.state.data.username && <h2>Hello {this.state.data.username}!</h2>}

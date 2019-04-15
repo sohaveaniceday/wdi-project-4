@@ -68,7 +68,7 @@ class Register extends React.Component {
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           <div className="row">
-            <h2 className="title col s6 offset-s3">Register</h2>
+            <h2 className="col s6 offset-s3">Register</h2>
             <div className="row">
               <div className="input-field col s6 offset-s3">
                 <label htmlFor="username">Username*</label>
@@ -134,7 +134,7 @@ class Register extends React.Component {
                 />
               </div>
             </div>
-            <button className="btn waves-effect waves-light col s6 offset-s3">Register</button>
+            <button className="btn waves-effect red accent-3 col s6 offset-s3">Register</button>
           </div>
         </form>
       </div>

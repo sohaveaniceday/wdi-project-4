@@ -137,19 +137,24 @@ class SpotEdit extends React.Component {
     console.log('state', this.state)
     return (
       <div className="container">
-        <SpotForm
-          updateState={this.updateState}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          handleSelectArtist={this.handleSelectArtist}
-          handleSelectCategory={this.handleSelectCategory}
-          data={this.state.data}
-          categories={this.state.categories}
-          artists={this.state.artists}
-          errors={this.state.errors}
-          openModal={this.openModal}
-          image={this.state.image}
-        />
+        <div className="container">
+          <div className="container">
+            <h2>Edit Spot</h2>
+            <SpotForm
+              updateState={this.updateState}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              handleSelectArtist={this.handleSelectArtist}
+              handleSelectCategory={this.handleSelectCategory}
+              data={this.state.data}
+              categories={this.state.categories}
+              artists={this.state.artists}
+              errors={this.state.errors}
+              openModal={this.openModal}
+              image={this.state.image}
+            />
+          </div>
+        </div>
       </div>
     )
   }

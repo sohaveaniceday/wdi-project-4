@@ -4,7 +4,13 @@ import Map from '../common/map'
 const moment = require('moment')
 // import M from 'materialize-css'
 import { Slider, Slide, Modal, Button } from 'react-materialize'
+import { Link } from 'react-router-dom'
 import Auth from '../../lib/auth'
+import Container from '../common/container'
+const filestackkey = process.env.FILESTACK_KEY
+import * as filestack from 'filestack-js'
+const client = filestack.init(filestackkey)
+
 
 
 class spotShow extends React.Component {
@@ -18,6 +24,8 @@ class spotShow extends React.Component {
     this.handleImageSubmit = this.handleImageSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.mapCenter = { lat: 51.515, lng: -0.078 }
+    this.updateState = this.updateState.bind(this)
+    this.openModal = this.openModal.bind(this)
   }
 
   componentDidMount() {
@@ -82,7 +90,7 @@ class spotShow extends React.Component {
       method: 'POST',
       headers: {Authorization: `Bearer ${Auth.getToken()}`},
       data: {
-        path: this.state.comment.path
+        path: this.state.image
       },
       json: true
     })
@@ -97,8 +105,33 @@ class spotShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }))
   }
 
+  openModal() {
+    const options = {
+      fromSources: ['local_file_system','instagram','facebook'],
+      accept: ['image/*'],
+      transformations: {
+        crop: true,
+        circle: true,
+        rotate: true
+      },
+      onFileUploadFinished: (file) => {
+        this.setState({ image: file.url })
+      },
+      onFileUploadFailed: (file, error) => {
+        console.log('file', file)
+        console.log('error', error)
+      }
+    }
+    client.picker(options).open()
+  }
+
+  updateState(url){
+    console.log('updateState running')
+    console.log(url)
+  }
+
   render() {
-    console.log('state', this.state)
+    console.log('artist', this.state.spot.artists)
     return(
       <div className="container center-align">
         <div className="row">
@@ -121,67 +154,82 @@ class spotShow extends React.Component {
                   <Slide key={i} image={<img src={image.path} />}></Slide>))}
               </Slider>
             </div>}
-            <div className="row">
-              {this.state.spot.locationlat &&
+          </div>
+          <div className="row">
+            {this.state.spot.locationlat &&
               <div className="s12 center-align">
-                <h6>Created by {this.state.spot.creator.username}</h6>
-                <Modal header="Add Image" ref={el => this.modal = el} trigger={<Button>Add New Image</Button>}>
-                  <input
-                    className="validate"
-                    type="text"
-                    name="path"
-                    id="path"
-                    onChange={this.handleChange}
-                    value={this.state.comment.path || ''}
-                  />
-                  <button onClick={this.handleImageSubmit} className="btn waves-effect waves-light">Submit</button>
+                <h6>Spotted by {this.state.spot.creator.username}</h6>
+                <br />
+                <Modal header="Add Image" ref={el => this.modal = el} trigger={<Button className="red accent-3">Add New Image</Button>}>
+                  <div className="row">
+                    {!this.state.image ?
+                      <Container openModal={this.openModal} className="btn waves-effect white black-text" />
+                      :
+                      <img src={this.state.image}/>
+                    }
+                  </div>
+                  <button onClick={this.handleImageSubmit} className="btn waves-effect red accent-3">Submit</button>
                 </Modal>
-                <h5>Artists</h5>
-                <div>{this.state.spot.artists.map((artist, i) => (
-                  <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span className="pointer"><a>{artist.name}</a> </span>}>
-                    <div className="row valign-wrapper">
-                      <div className="col s2">
-                        <img src={artist.image} alt="" className="circle responsive-img" />
+                <div className="container">
+                  <br />
+                  <h5>Artists</h5>
+                  {this.state.spot.artists.map((artist, i) => (
+                    <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span className="pointer"><a>{artist.name}</a> </span>}>
+                      <div className="row valign-wrapper">
+                        <div className="col s2">
+                          <img src={artist.image} alt="" className="circle responsive-img" />
+                        </div>
+                        <div className="col s10">
+                          <span className="black-text">
+                            {artist.bio}
+                          </span>
+                        </div>
                       </div>
-                      <div className="col s10">
-                        <span className="black-text">
-                          {artist.bio}
-                        </span>
+                      <h6><strong>More Works</strong></h6><br />
+                      <div className="row">
+                        {artist.spots.map((spot, i) => (
+                          <Link key={i} to={`/spots/${spot.id}`} onClick="OpenCloseModal()">
+                            <div className="col s3 m12 l12">
+                              <img src={spot.images[0].path} alt="" className="rounded-img" />
+                            </div>
+                          </Link>
+                        ))}
                       </div>
-                    </div>
-                  </Modal>))}</div>
+                    </Modal>))}</div>
                 <h5>Categories</h5>
                 <div>{this.state.spot.categories.map((category, i) => (
                   <span key={i}>{category.name} / </span>))}</div>
               </div>}
-            </div>
-            {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect waves-light" href={`/spots/${this.state.spot.id}/edit`}>Edit
-            </a>}
-            {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect waves-light" onClick={this.handleDelete}>Delete
-            </a>}
           </div>
-          <h4 className="title is-4">Comments</h4>
+          {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect red accent-3" href={`/spots/${this.state.spot.id}/edit`}>Edit
+          </a>}
+          {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect red accent-3" onClick={this.handleDelete}>Delete
+          </a>}
+        </div>
+        <div className="container">
+          <h5>Comments</h5>
+          <br />
           <form onSubmit={this.handleSubmit}>
             <div className="field">
-              <label className="label">Make Comment</label>
               <div className="control">
                 <textarea cols='60' rows='3'
                   name="content"
-                  placeholder="Comment"
+                  placeholder="Make a Comment"
                   onChange={this.handleChange}
                   value={this.state.comment.content || ''}
                 />
               </div>
             </div>
-            <button className="btn waves-effect waves-light">Submit</button>
+            <br />
+            <button className="btn waves-effect red accent-3">Submit</button>
           </form>
           <br />
           {this.state.spot.locationlat &&
-              <div>{this.state.spot.comments.map((comment, i) => (
-                <div key={i}><span>&quot;{comment.content}&quot;</span><p><strong>Written by {comment.creator.username}</strong> on {moment(comment.created_at).format('Do MMMM YYYY')} at {moment(comment.created_at).format('hh:mm')}</p><br /></div>))}</div>}
+                <div>{this.state.spot.comments.slice(0).reverse().map((comment, i) => (
+                  <div key={i}><span>&quot;{comment.content}&quot;</span><p><strong>Written by {comment.creator.username}</strong> on {moment(comment.created_at).format('Do MMMM YYYY')} at {moment(comment.created_at).format('hh:mm')}</p><br /></div>))}</div>}
         </div>
+        <br />
       </div>
-
     )
   }
 }
