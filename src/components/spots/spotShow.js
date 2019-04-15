@@ -155,7 +155,7 @@ class spotShow extends React.Component {
         <div className="row">
           <div className="row valign-wrapper">
             <h2 className="col s8 offset-s2">{this.state.spot.name}</h2>
-            <div className="col s2">
+            <div className="col s3 m2 l2">
               <br />
               {this.state.spot.locationlat && !this.state.spot.liked_by.some(checkLikes) && <a onClick={this.likeButton} className="btn-floating btn-large waves-effect waves-light red accent-3">
                 <i className="material-icons">thumb_up</i></a>}
@@ -189,7 +189,7 @@ class spotShow extends React.Component {
               <div className="s12 center-align">
                 <h6>Spotted by {this.state.spot.creator.username}</h6>
                 <br />
-                <Modal header="Add Image" ref={el => this.modal = el} trigger={<Button className="red accent-3">Add New Image</Button>}>
+                <Modal header="Add Image" ref={el => this.modal = el} trigger={<Button className="white black-text">Add New Image</Button>}>
                   <div className="row">
                     {!this.state.image ?
                       <Container openModal={this.openModal} className="btn waves-effect white black-text" />
