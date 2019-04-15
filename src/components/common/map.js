@@ -51,10 +51,13 @@ class Map extends React.Component {
           </div>
           </div>
             </a>`)
-      return new mapboxgl.Marker()
+      new mapboxgl.Marker()
         .setLngLat({  lat: point.locationlat, lng: point.locationlon })
         .addTo(this.map)
         .setPopup(popup)
+      return new mapboxgl.Marker()
+        .setLngLat({  lat: this.props.locationlat, lng: this.props.locationlon })
+        .addTo(this.map)
     })
   }
 

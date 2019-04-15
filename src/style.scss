@@ -35,6 +35,11 @@ strong {
   }
 }
 
+.mapboxgl-center-popup {
+  background-color: red;
+  width: 500px;
+}
+
 .margin-top {
   margin: 100px 0 0 0;
 }
@@ -91,8 +96,10 @@ strong {
   margin: 0px;
 }
 
-
-
 .some-top-padding {
   padding: 100px 0 0 0;
+}
+
+.center-marker {
+  min-width: 500px;
 }
