@@ -93,16 +93,21 @@ class Search extends React.Component {
                           <span className="card-title">{searchResult.name}</span>
                         </div>
                         <div className="card-content black-text">
-                          <div>{searchResult.artists.map((artist, i) => (
-                            <h6 key={i}>By {artist.name}</h6>))}
-                          <br />
-                          <span><p><strong>Categories:</strong><br />
-                            <span>{searchResult.categories.map((category, i) => (
-                              <span key={i}>{category.name} / </span>))}
-                            </span>
-                          </p>
-                          </span>
-                          <br />
+                          <div className="row valign-wrapper">
+                            <div className="col s8">{searchResult.artists.map((artist, i) => (
+                              <h6 key={i}>By {artist.name}</h6>))}
+                            </div>
+                            <div className="col s3">
+                              <span>{searchResult.liked_by.length > 0 ? <p>{searchResult.liked_by.length}&nbsp;&nbsp;<i className="material-icons tiny">thumb_up</i></p> : <p>0&nbsp;&nbsp;<i className="material-icons">thumb_up</i></p>}</span>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col s12"><p><strong>&nbsp;&nbsp;&nbsp;&nbsp;Categories:</strong><br />
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;{searchResult.categories.map((category, i) => (
+                                <span key={i}>{category.name} / </span>))}
+                              </span>
+                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>

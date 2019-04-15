@@ -11,7 +11,9 @@ const filestackkey = process.env.FILESTACK_KEY
 import * as filestack from 'filestack-js'
 const client = filestack.init(filestackkey)
 
-
+const checkLikes = function(likes) {
+  return likes.id === Auth.getPayload().sub
+}
 
 class spotShow extends React.Component {
   constructor() {
@@ -23,6 +25,7 @@ class spotShow extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleImageSubmit = this.handleImageSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.likeButton = this.likeButton.bind(this)
     this.mapCenter = { lat: 51.515, lng: -0.078 }
     this.updateState = this.updateState.bind(this)
     this.openModal = this.openModal.bind(this)
@@ -84,6 +87,21 @@ class spotShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }))
   }
 
+  likeButton() {
+    axios.put(`/api/spots/${this.props.match.params.id}/like`,
+      this.state.comment,
+      { headers: {Authorization: `Bearer ${Auth.getToken()}`}})
+      .then((res) => {
+        if (res.data.errors) {
+          this.setState({ sent: 'false' })
+        } else {
+          this.setState({ sent: 'true', comment: {} })
+          this.getThisSpot()
+        }
+      })
+      .catch(err => this.setState({ errors: err.response.data.errors }))
+  }
+
   handleImageSubmit() {
     axios({
       url: `/api/spots/${this.props.match.params.id}/images`,
@@ -131,11 +149,22 @@ class spotShow extends React.Component {
   }
 
   render() {
-    console.log('artist', this.state.spot.artists)
+    console.log('likes', this.state.spot.liked_by)
     return(
       <div className="container center-align">
         <div className="row">
-          <h2 className="col s12">{this.state.spot.name}</h2>
+          <div className="row valign-wrapper">
+            <h2 className="col s8 offset-s2">{this.state.spot.name}</h2>
+            <div className="col s2">
+              <br />
+              {this.state.spot.locationlat && !this.state.spot.liked_by.some(checkLikes) && <a onClick={this.likeButton} className="btn-floating btn-large waves-effect waves-light red accent-3">
+                <i className="material-icons">thumb_up</i></a>}
+              {this.state.spot.locationlat && this.state.spot.liked_by.some(checkLikes) && <a className="btn-floating btn-large waves-effect waves-light red accent-3">
+                <i className="material-icons">check</i></a>}
+              {this.state.spot.liked_by && this.state.spot.liked_by.length > 0 && <h6 className="no-top-margin">{this.state.spot.liked_by.length} Likes</h6>}
+            </div>
+          </div>
+
           <div className="row">
             <div className="col left-align l6 m12 s12">
               {this.state.spot.locationlat && this.state.points &&
