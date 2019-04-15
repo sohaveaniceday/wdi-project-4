@@ -49,7 +49,7 @@ const SpotForm = ({ handleChange, handleSubmit, handleSelectArtist, handleSelect
       <div className="row">
         <div className="field">
           {!image ?
-            <Container openModal={openModal} className="btn waves-effect red accent-3" />
+            <Container openModal={openModal} className="btn waves-effect white black-text" />
             :
             <img src={image}/>
           }

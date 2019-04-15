@@ -28,7 +28,7 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="navbar-fixed">
         <nav className="red accent-3">
           <div className="nav-wrapper">
             {!Auth.isAuthenticated() && <Link className="brand-logo main-logo" to="/">&nbsp;&nbsp;Tag</Link>}
