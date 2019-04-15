@@ -7,8 +7,8 @@ class Artist(db.Model, BaseModel):
     __tablename__ = 'artists'
 
     name = db.Column(db.String(40), unique=True, nullable=False)
-    image = db.Column(db.String(120), nullable=False)
-    bio = db.Column(db.String(200), nullable=False)
+    image = db.Column(db.String(200), nullable=False)
+    bio = db.Column(db.String(300), nullable=False)
 
 class ArtistSchema(ma.ModelSchema):
 

@@ -99,7 +99,9 @@ const SpotForm = ({ handleChange, handleSubmit, handleSelectArtist, handleSelect
               </div>
             </div>
           </div>
-          <button className="btn waves-effect waves-light">Submit</button>
+          <div className="center-align">
+            <button className="btn waves-effect waves-light center-align">Submit</button>
+          </div>
         </div>
       </form>
     </div>

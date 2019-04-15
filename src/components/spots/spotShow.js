@@ -42,7 +42,6 @@ class spotShow extends React.Component {
       })
   }
 
-
   handleDelete() {
     axios.delete(`/api/spots/${this.props.match.params.id}`,
       { headers: { Authorization: `Bearer ${Auth.getToken()}`}})
@@ -139,7 +138,7 @@ class spotShow extends React.Component {
                 </Modal>
                 <h5>Artists</h5>
                 <div>{this.state.spot.artists.map((artist, i) => (
-                  <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span><a>{artist.name}</a> / </span>}>
+                  <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span className="pointer"><a>{artist.name}</a> </span>}>
                     <div className="row valign-wrapper">
                       <div className="col s2">
                         <img src={artist.image} alt="" className="circle responsive-img" />

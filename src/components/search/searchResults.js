@@ -6,8 +6,18 @@ class Search extends React.Component {
   constructor() {
     super()
     this.state = { data: {search: ''} }
-    this.handleSubmit = this.handleSubmit.bind(this)
+    // this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    axios.all([
+      axios.get('/api/spots')
+    ])
+      .then(res => {
+        const searchResults = res[0].data
+        this.setState({ searchResults })
+      })
   }
 
   handleChange({ target: { name, value } }) {
@@ -15,9 +25,6 @@ class Search extends React.Component {
     const errors = {...this.state.errors, [name]: null }
     this.setState({ data, errors })
     console.log(this.state.data.search)
-  }
-  handleSubmit(e) {
-    e.preventDefault()
     this.setState({ sent: true })
     axios.all([
       axios.get('/api/spots')
@@ -36,6 +43,26 @@ class Search extends React.Component {
         this.setState({ searchResults })
       })
   }
+  // handleSubmit(e) {
+  //   e.preventDefault()
+  //   this.setState({ sent: true })
+  //   axios.all([
+  //     axios.get('/api/spots')
+  //   ])
+  //     .then(res => {
+  //       const searchItem = this.state.data.search.toLowerCase()
+  //       console.log('res', res)
+  //       const searchResults = res[0].data.filter(result => {
+  //         return (result.name.toLowerCase().includes(searchItem) || result.categories.some(category => {
+  //           return category.name.toLowerCase().includes(searchItem)
+  //         }) || result.artists.some(artist => {
+  //           return artist.name.toLowerCase().includes(searchItem)
+  //         })
+  //         )
+  //       })
+  //       this.setState({ searchResults })
+  //     })
+  // }
   render() {
     const { data } = this.state
     // console.log(search)
@@ -43,20 +70,17 @@ class Search extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <form onSubmit={this.handleSubmit}>
-            <div className="input-field col s12">
-              <h6 htmlFor="search">Search</h6>
-              <input
-                id='search'
-                className='input'
-                name="search"
-                placeholder="Search names, artists, categories"
-                onChange={this.handleChange}
-                value={data.search || ''}
-              />
-            </div>
-            <button className="btn waves-effect waves-light">Search</button>
-          </form>
+          <div className="input-field col s12 center-align">
+            <h6 htmlFor="search">Search</h6>
+            <input
+              id='search'
+              className='input'
+              name="search"
+              placeholder="Search names, artists, categories"
+              onChange={this.handleChange}
+              value={data.search || ''}
+            />
+          </div>
           <div className="row">
             <div className="col">
               {this.state.searchResults && this.state.searchResults.map(searchResult => (

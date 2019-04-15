@@ -49,51 +49,51 @@ class SpotEdit extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    let lat = null
-    let lng = null
-    const data = {...this.state.data}
-    // axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
-    //   .then(ocdResponse => {
-    //     console.log('ocd', ocdResponse)
-    //     const { lat, lng } = ocdResponse.data.results[0].geometry
-        axios({
-          url: `/api/spots/${this.props.match.params.id}`,
-          method: 'PUT',
-          headers: {Authorization: `Bearer ${Auth.getToken()}`},
-          data: data,
-          json: true
-        })
-          .then(() => {
-            axios({
-              url: `/api/spots/${this.props.match.params.id}/images`,
-              method: 'POST',
-              headers: {Authorization: `Bearer ${Auth.getToken()}`},
-              data: {
-                path: data.path
-              },
-              json: true
-            })
-              .then(() => {
-                this.props.history.push('/home')
-              })
-              .catch(err => this.setState({ errors: err.response.data.errors }))
-          })
-          .catch(err => {
-            this.setState({ errors: err.response.data.errors })
-            axios({
-              url: `/api/spots/${this.props.match.params.id}/images`,
-              method: 'POST',
-              headers: {Authorization: `Bearer ${Auth.getToken()}`},
-              data: {
-                path: data.path
-              },
-              json: true
-            })
-              .then(() => {
-                this.props.history.push('/spots/${this.props.match.params.id}')
-              })
-              .catch(err => this.setState({ errors: err.response.data.errors }))
-          })
+    // let lat = null
+    // let lng = null
+    // const data = {...this.state.data}
+    // // axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
+    // //   .then(ocdResponse => {
+    // //     console.log('ocd', ocdResponse)
+    // //     const { lat, lng } = ocdResponse.data.results[0].geometry
+    //     axios({
+    //       url: `/api/spots/${this.props.match.params.id}`,
+    //       method: 'PUT',
+    //       headers: {Authorization: `Bearer ${Auth.getToken()}`},
+    //       data: data,
+    //       json: true
+    //     })
+    //       .then(() => {
+    //         axios({
+    //           url: `/api/spots/${this.props.match.params.id}/images`,
+    //           method: 'POST',
+    //           headers: {Authorization: `Bearer ${Auth.getToken()}`},
+    //           data: {
+    //             path: data.path
+    //           },
+    //           json: true
+    //         })
+    //           .then(() => {
+    //             this.props.history.push('/home')
+    //           })
+    //           .catch(err => this.setState({ errors: err.response.data.errors }))
+    //       })
+    //       .catch(err => {
+    //         this.setState({ errors: err.response.data.errors })
+    //         axios({
+    //           url: `/api/spots/${this.props.match.params.id}/images`,
+    //           method: 'POST',
+    //           headers: {Authorization: `Bearer ${Auth.getToken()}`},
+    //           data: {
+    //             path: data.path
+    //           },
+    //           json: true
+    //         })
+    //           .then(() => {
+    //             this.props.history.push('/spots/${this.props.match.params.id}')
+    //           })
+    //           .catch(err => this.setState({ errors: err.response.data.errors }))
+    //       })
       // })
   }
 
