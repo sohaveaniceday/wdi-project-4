@@ -68,46 +68,48 @@ class Search extends React.Component {
     // console.log(search)
     console.log('state', this.state)
     return (
-      <div className="container">
-        <div className="row">
-          <div className="input-field col s12 center-align">
-            <h6 htmlFor="search">Search</h6>
-            <input
-              id='search'
-              className='input'
-              name="search"
-              placeholder="Search names, artists, categories"
-              onChange={this.handleChange}
-              value={data.search || ''}
-            />
-          </div>
+      <div className={this.state.searchResults && this.state.searchResults.length < 4 ? 'home full-height' : 'home'}>
+        <div className="container">
           <div className="row">
-            <div className="col">
-              {this.state.searchResults && this.state.searchResults.slice(0).reverse().map(searchResult => (
-                <Link key={searchResult.id} to={`/spots/${searchResult.id}`}>
-                  <div className="col s12 m6 l4">
-                    <div className="card hoverable">
-                      <div className="card-image">
-                        <img src={searchResult.images[0].path} />
-                        <span className="card-title">{searchResult.name}</span>
-                      </div>
-                      <div className="card-content black-text">
-                        <div>{searchResult.artists.map((artist, i) => (
-                          <h6 key={i}>By {artist.name}</h6>))}
-                        <br />
-                        <span><p><strong>Categories:</strong><br />
-                          <span>{searchResult.categories.map((category, i) => (
-                            <span key={i}>{category.name} / </span>))}
+            <div className="input-field col s12 center-align">
+              <h5 htmlFor="search">Search</h5>
+              <input
+                id='search'
+                className='input'
+                name="search"
+                placeholder="Search names, artists, categories"
+                onChange={this.handleChange}
+                value={data.search || ''}
+              />
+            </div>
+            <div className="row">
+              <div className="col">
+                {this.state.searchResults && this.state.searchResults.slice(0).reverse().map(searchResult => (
+                  <Link key={searchResult.id} to={`/spots/${searchResult.id}`}>
+                    <div className="col s12 m6 l4">
+                      <div className="card hoverable">
+                        <div className="card-image">
+                          <img src={searchResult.images[0].path} />
+                          <span className="card-title">{searchResult.name}</span>
+                        </div>
+                        <div className="card-content black-text">
+                          <div>{searchResult.artists.map((artist, i) => (
+                            <h6 key={i}>By {artist.name}</h6>))}
+                          <br />
+                          <span><p><strong>Categories:</strong><br />
+                            <span>{searchResult.categories.map((category, i) => (
+                              <span key={i}>{category.name} / </span>))}
+                            </span>
+                          </p>
                           </span>
-                        </p>
-                        </span>
-                        <br />
+                          <br />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>

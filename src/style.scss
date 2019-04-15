@@ -71,12 +71,22 @@ strong {
 }
 
 .home {
-    // background-image: url('assets/background.jpg');
+    background-image: url('assets/background.jpg');
     // background-color: red;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background-position: left;
-    height: 92.9vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    // height: 92.9vh;
+    background-attachment: fixed;
+}
+
+.full-height {
+  height: 92.9vh;
+}
+
+.no-top-margin {
+  margin: 30px;
 }

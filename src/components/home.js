@@ -41,18 +41,20 @@ class Home extends React.Component {
     console.log('state', this.state)
     return(
       <div className="home">
-        <div className="container">
-          <h2 className="center-align">Street Art Near You</h2>
+        <div className="container full-height">
           <div className="row">
-            <br />
-            {this.state.points &&
-              <Map
-                center={this.mapCenter}
-                points={this.state.points}
-                locationlat={this.state.data.locationlat}
-                locationlon={this.state.data.locationlon}
-              />
-            }
+            <h2 className="center-align col s12">Street Art Near You</h2>
+            <div className="row">
+              <br />
+              {this.state.points &&
+                <Map
+                  center={this.mapCenter}
+                  points={this.state.points}
+                  locationlat={this.state.data.locationlat}
+                  locationlon={this.state.data.locationlon}
+                />
+              }
+            </div>
           </div>
         </div>
       </div>

@@ -131,24 +131,28 @@ class SpotNew extends React.Component {
     console.log(this.state)
 
     return (
-      <div className="container">
+      <div className="home full-height">
         <div className="container">
           <div className="container">
-            <h2>New Spot</h2>
-            <SpotForm
-              updateState={this.updateState}
-              handleChange={this.handleChange}
-              handleSubmit={this.handleSubmit}
-              handleSelectArtist={this.handleSelectArtist}
-              handleSelectCategory={this.handleSelectCategory}
-              data={this.state.data}
-              categories={this.state.categories}
-              artists={this.state.artists}
-              errors={this.state.errors}
-              openModal={this.openModal}
-              image={this.state.image}
-            />
-            <br />
+            <div className="container">
+              <div className="row">
+                <h2 className="col s12">New Spot</h2>
+                <SpotForm
+                  updateState={this.updateState}
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleSubmit}
+                  handleSelectArtist={this.handleSelectArtist}
+                  handleSelectCategory={this.handleSelectCategory}
+                  data={this.state.data}
+                  categories={this.state.categories}
+                  artists={this.state.artists}
+                  errors={this.state.errors}
+                  openModal={this.openModal}
+                  image={this.state.image}
+                />
+                <br />
+              </div>
+            </div>
           </div>
         </div>
       </div>
