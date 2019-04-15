@@ -176,10 +176,10 @@ class spotShow extends React.Component {
                   {this.state.spot.artists.map((artist, i) => (
                     <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span className="pointer"><a>{artist.name}</a> </span>}>
                       <div className="row valign-wrapper">
-                        <div className="col s2">
+                        <div className="col s5 m2 l2">
                           <img src={artist.image} alt="" className="circle responsive-img" />
                         </div>
-                        <div className="col s10">
+                        <div className="col s7 m10 l10">
                           <span className="black-text">
                             {artist.bio}
                           </span>
@@ -189,7 +189,7 @@ class spotShow extends React.Component {
                       <div className="row">
                         {artist.spots.map((spot, i) => (
                           <Link key={i} to={`/spots/${spot.id}`} onClick="OpenCloseModal()">
-                            <div className="col s3 m12 l12">
+                            <div className="col s6 m4 l3">
                               <img src={spot.images[0].path} alt="" className="rounded-img" />
                             </div>
                           </Link>
