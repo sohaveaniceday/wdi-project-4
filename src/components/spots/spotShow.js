@@ -41,7 +41,7 @@ class spotShow extends React.Component {
     axios.get(`/api/users/${Auth.getPayload().sub}`)
       .then(res => this.setState({ data: res.data.user }))
     const { lat, lng } = this.mapCenter
-    this.getSpots(lat, lng, 8000)
+    this.getSpots(lat, lng, 10000)
   }
 
   getSpots(locationlat, locationlon, radius) {

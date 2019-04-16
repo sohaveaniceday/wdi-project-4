@@ -29,9 +29,9 @@ class Map extends React.Component {
   }
 
   //calls the setMarkers() function
-  componentDidUpdate() {
-    this.setMarkers()
-  }
+  // componentDidUpdate() {
+  //   this.setMarkers()
+  // }
 
   //removes the markers first then returns the new set of markers
   setMarkers() {
@@ -55,10 +55,15 @@ class Map extends React.Component {
         .setLngLat({  lat: point.locationlat, lng: point.locationlon })
         .addTo(this.map)
         .setPopup(popup)
-      return new mapboxgl.Marker()
-        .setLngLat({  lat: this.props.locationlat, lng: this.props.locationlon })
-        .addTo(this.map)
+      // return new mapboxgl.Marker()
+      //   .setLngLat({  lat: this.props.locationlat, lng: this.props.locationlon })
+      //   .addTo(this.map)
     })
+    var el = document.createElement('div')
+    el.className = 'center-marker'
+    new mapboxgl.Marker(el)
+      .setLngLat({  lat: this.props.locationlat, lng: this.props.locationlon })
+      .addTo(this.map)
   }
 
   render() {

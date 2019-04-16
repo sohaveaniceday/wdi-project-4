@@ -45,18 +45,17 @@ class Home extends React.Component {
       <div className="home">
         <div className="container full-height">
           <div className="row">
-            <h3 className="center-align col s12">Street Art Near You</h3>
+            {this.state.points &&
+            <><h3 className="center-align col s12">Street Art Near You</h3>
             <div className="row">
               <br />
-              {this.state.points &&
-                <Map
-                  center={this.mapCenter}
-                  points={this.state.points}
-                  locationlat={this.state.data.locationlat}
-                  locationlon={this.state.data.locationlon}
-                />
-              }
-            </div>
+              <Map
+                center={this.mapCenter}
+                points={this.state.points}
+                locationlat={this.state.data.locationlat}
+                locationlon={this.state.data.locationlon}
+              />
+            </div></>}
           </div>
           <div className="row">
             <Link to="/search" className="center-align col l4 offset-l4 m6 offset-m3 s12 btn waves-effect red accent-3">Search</Link>

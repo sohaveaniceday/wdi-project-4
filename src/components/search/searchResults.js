@@ -70,7 +70,7 @@ class Search extends React.Component {
     return (
       <div className={this.state.searchResults && this.state.searchResults.length < 4 ? 'home full-height' : 'home'}>
         <div className={this.state.searchResults ? 'container' : 'container full-height'}>
-          <div className="row">
+          <div className="row no-margin">
             <div className="input-field col s12 center-align">
               <h5 htmlFor="search">Search</h5>
               <input
