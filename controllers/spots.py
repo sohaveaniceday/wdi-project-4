@@ -63,10 +63,12 @@ def update(spot_id):
     for x in artists:
         artists_models.append(Artist.query.get(x))
     spot.creator = g.current_user
-    for x in categories_models:
-        spot.categories.append(x)
-    for x in artists_models:
-        spot.artists.append(x)
+    # for x in categories_models:
+    spot.categories = categories_models
+    spot.artists = artists_models
+
+    # for x in artists_models:
+        # spot.artists.append(x)
     spot.save()
     return spot_schema.jsonify(spot)
 

@@ -39,10 +39,15 @@ class SpotEdit extends React.Component {
       .catch(err => console.log(err))
     axios.get(`/api/spots/${this.props.match.params.id}`)
       .then(res => {
-        const data = {data: { name: res.data.name, categories: res.data.categories.map(({ id }) => id), artists: res.data.artists.map(({ id }) => id), artistValues: res.data.artists.map(artist => ({ value: artist.id, label: artist.name })), categoryValues: res.data.categories.map(category => ({ value: category.id, label: category.name }))}}
-        this.setState(data)
+        axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(res.data.locationlat)}+${encodeURIComponent(res.data.locationlon)}&key=${key}`)
+          .then(ocdResponse => {
+            console.log('ocd', ocdResponse)
+            const location = ocdResponse.data.results[0].formatted
+            const data = {data: { name: res.data.name, location: location, categories: res.data.categories.map(({ id }) => id), artists: res.data.artists.map(({ id }) => id), artistValues: res.data.artists.map(artist => ({ value: artist.id, label: artist.name })), categoryValues: res.data.categories.map(category => ({ value: category.id, label: category.name }))}}
+            this.setState(data)
+          })
+          .catch(err => console.log(err.message))
       })
-      .catch(err => console.log(err.message))
   }
 
   handleChange({ target: { name, value }}) {
@@ -52,32 +57,29 @@ class SpotEdit extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    // let lat = null
-    // let lng = null
     const data = {...this.state.data}
-    // axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
-    //   .then(ocdResponse => {
-    //     console.log('ocd', ocdResponse)
-    //     const { lat, lng } = ocdResponse.data.results[0].geometry
-    axios({
-      url: `/api/spots/${this.props.match.params.id}`,
-      method: 'PUT',
-      headers: {Authorization: `Bearer ${Auth.getToken()}`},
-      data: {
-        name: data.name,
-        // locationlat: lat,
-        // locationlon: lng,
-        category_id: data.categories,
-        artist_id: data.artists
-      },
-      json: true
-    })
-      .then(() => {
-        this.props.history.push(`/spots/${this.props.match.params.id}`)
+    axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
+      .then(ocdResponse => {
+        console.log('ocd', ocdResponse)
+        const { lat, lng } = ocdResponse.data.results[0].geometry
+        axios({
+          url: `/api/spots/${this.props.match.params.id}`,
+          method: 'PUT',
+          headers: {Authorization: `Bearer ${Auth.getToken()}`},
+          data: {
+            name: data.name,
+            locationlat: lat,
+            locationlon: lng,
+            category_id: data.categories,
+            artist_id: data.artists
+          },
+          json: true
+        })
+          .then(() => {
+            this.props.history.push(`/spots/${this.props.match.params.id}`)
+          })
+          .catch(err => console.log(err))
       })
-      .catch(err => console.log(err))
-
-    // })
   }
 
   handleSelectCategory(value) {
@@ -127,27 +129,27 @@ class SpotEdit extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="input-field col s12">
-                  <label htmlFor="name">Spot Name*</label>
                   <input
                     className="validate"
                     type="text"
                     name="name"
                     id="name"
                     onChange={this.handleChange}
-                    value={this.state.data.name || ''}
+                    value={this.state.data.name || ' '}
                   />
+                  <label className="active" htmlFor="name">Spot Name*</label>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
-                  <label htmlFor="location">Postcode*</label>
+                  <label htmlFor="location" className="active">Postcode*</label>
                   <input
                     className="validate"
                     type="text"
                     name="location"
                     id="location"
                     onChange={this.handleChange}
-                    value={this.state.data.location || ''}
+                    value={this.state.data.location || ' '}
                   />
                 </div>
               </div>
