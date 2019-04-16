@@ -131,11 +131,11 @@ class SpotNew extends React.Component {
     console.log(this.state)
 
     return (
-      <div className="home full-height">
-        <div className="container">
+      <div className="home">
+        <div className={this.state.image ? 'container' : 'container full-height'}>
           <div className="container">
             <div className="container">
-              <div className="row">
+              <div className="row  no-margin">
                 <h2 className="col s12">New Spot</h2>
                 <SpotForm
                   updateState={this.updateState}

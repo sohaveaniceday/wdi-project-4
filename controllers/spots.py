@@ -54,8 +54,19 @@ def update(spot_id):
         return jsonify(errors), 422
     if spot.creator != g.current_user:
         return jsonify({'message': 'Unauthorized'}), 401
-    category = Category.query.get(data['category_id'])
-    spot.categories.append(category)
+    categories = list(data['category_id'])
+    artists = list(data['artist_id'])
+    categories_models = []
+    artists_models = []
+    for x in categories:
+        categories_models.append(Category.query.get(x))
+    for x in artists:
+        artists_models.append(Artist.query.get(x))
+    spot.creator = g.current_user
+    for x in categories_models:
+        spot.categories.append(x)
+    for x in artists_models:
+        spot.artists.append(x)
     spot.save()
     return spot_schema.jsonify(spot)
 
