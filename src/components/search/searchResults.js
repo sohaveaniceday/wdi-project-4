@@ -98,7 +98,7 @@ class Search extends React.Component {
                               <h6 key={i}>By {artist.name}</h6>))}
                             </div>
                             <div className="col s3">
-                              <span>{searchResult.liked_by.length > 0 ? <p>{searchResult.liked_by.length}&nbsp;&nbsp;<i className="material-icons tiny">thumb_up</i></p> : <p>0&nbsp;&nbsp;<i className="material-icons">thumb_up</i></p>}</span>
+                              <span>{searchResult.liked_by.length > 0 ? <p>{searchResult.liked_by.length}&nbsp;&nbsp;<i className="material-icons tiny">thumb_up</i></p> : <p>0&nbsp;&nbsp;<i className="material-icons tiny">thumb_up</i></p>}</span>
                             </div>
                           </div>
                           <div className="row">
