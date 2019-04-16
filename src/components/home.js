@@ -45,7 +45,7 @@ class Home extends React.Component {
       <div className="home">
         <div className="container full-height">
           <div className="row">
-            <h2 className="center-align col s12">Street Art Near You</h2>
+            <h3 className="center-align col s12">Street Art Near You</h3>
             <div className="row">
               <br />
               {this.state.points &&
@@ -57,6 +57,12 @@ class Home extends React.Component {
                 />
               }
             </div>
+          </div>
+          <div className="row">
+            <Link to="/search" className="center-align col l4 offset-l4 m6 offset-m3 s12 btn waves-effect red accent-3">Search</Link>
+          </div>
+          <div className="row">
+            <Link to="/spots/new" className="center-align col l4 offset-l4 m6 offset-m3 s12 btn waves-effect red accent-3">New Spot</Link>
           </div>
         </div>
       </div>

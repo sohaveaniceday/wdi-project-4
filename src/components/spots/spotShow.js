@@ -230,8 +230,8 @@ class spotShow extends React.Component {
                   <span key={i}>{category.name} / </span>))}</div>
               </div>}
           </div>
-          {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect red accent-3" href={`/spots/${this.state.spot.id}/edit`}>Edit
-          </a>}
+          {this.state.spot.creator && this.isOwner() && <span><a className="btn waves-effect red accent-3" href={`/spots/${this.state.spot.id}/edit`}>Edit
+          </a>&nbsp;&nbsp;&nbsp;&nbsp;</span>}
           {this.state.spot.creator && this.isOwner() && <a className="btn waves-effect red accent-3" onClick={this.handleDelete}>Delete
           </a>}
         </div>
