@@ -17,7 +17,7 @@ class Register extends React.Component {
         passwordConfirmation: '',
         location: ''
       },
-      error: ''
+      error: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -26,7 +26,7 @@ class Register extends React.Component {
 
   handleChange({ target: { name , value }}) {
     const data = {...this.state.data, [name]: value}
-    const error = ''
+    const error = false
     this.setState({ data, error })
   }
 
@@ -35,7 +35,6 @@ class Register extends React.Component {
     const data = {...this.state.data}
     axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
       .then(ocdResponse => {
-        console.log(ocdResponse)
         const { lat, lng } = ocdResponse.data.results[0].geometry
         axios({
           url: 'api/register',
@@ -51,8 +50,14 @@ class Register extends React.Component {
           json: true
         })
           .then(() => this.props.history.push('/login'))
-          // .catch(() => this.setState({ error: 'Invalid Input'}))
-          .catch(() => console.log(data.username, data.email,  data.password, data.passwordConfirmation, lat, lng))
+          .catch(() => {
+            console.log('error')
+            this.setState( {error: true} )
+          })
+      })
+      .catch(() => {
+        console.log('error')
+        this.setState( {error: true} )
       })
   }
 
@@ -64,6 +69,7 @@ class Register extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
@@ -136,6 +142,7 @@ class Register extends React.Component {
             </div>
             <button className="btn waves-effect red accent-3 col s6 offset-s3">Register</button>
           </div>
+          {this.state.error && <h6 className="red-text center-align">*Invalid Input</h6>}
         </form>
       </div>
     )

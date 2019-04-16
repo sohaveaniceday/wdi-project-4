@@ -17,6 +17,8 @@ import SpotShow from './components/spots/spotShow'
 import SpotNew from './components/spots/spotNew'
 import SpotEdit from './components/spots/spotEdit'
 import Search from './components/search/searchResults'
+import ErrorPage from './components/errorPage'
+
 
 
 class App extends React.Component {
@@ -39,6 +41,7 @@ class App extends React.Component {
           <SecureRoute path="/search" component={Search} />
           <SecureRoute exact path="/home" component={Home} />
           <Route exact path="/" component={Landing} />
+          <Route path="/*" component={ErrorPage} />
         </Switch>
       </Browser>
     )

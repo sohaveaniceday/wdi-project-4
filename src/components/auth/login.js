@@ -19,7 +19,7 @@ class Login extends React.Component {
 
   handleChange({ target: { name, value }}) {
     const data = {...this.state.data, [name]: value }
-    const error = ''
+    const error = false
     this.setState({ data, error })
   }
 
@@ -31,7 +31,7 @@ class Login extends React.Component {
         this.props.history.push('/')
       })
       .catch(() => {
-        this.setState({ error: 'Invalid Credentials'})
+        this.setState({ error: true })
       })
   }
 
@@ -69,6 +69,7 @@ class Login extends React.Component {
             </div>
             <button className="btn waves-effect red accent-3 col s6 offset-s3">Login</button>
           </div>
+          {this.state.error && <h6 className="red-text center-align">*Invalid Input</h6>}
         </form>
       </div>
     )

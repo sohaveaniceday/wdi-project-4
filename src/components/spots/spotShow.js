@@ -179,7 +179,7 @@ class spotShow extends React.Component {
                 <i className="material-icons">thumb_up</i></a>}
               {this.state.spot.locationlat && this.state.spot.liked_by.some(checkLikes) && <a className="btn-floating btn-large waves-effect waves-light red accent-3">
                 <i className="material-icons">check</i></a>}
-              {this.state.spot.liked_by && this.state.spot.liked_by.length > 0 && <h6 className="no-top-margin">{this.state.spot.liked_by.length} Likes</h6>}
+              {this.state.spot.liked_by && this.state.spot.liked_by.length > 0 && <h6 className="no-top-margin">{this.state.spot.liked_by.length}&nbsp;&nbsp;Likes</h6>}
             </div>
           </div>
 

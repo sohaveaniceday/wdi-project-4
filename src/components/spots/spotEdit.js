@@ -13,7 +13,7 @@ class SpotEdit extends React.Component {
   constructor() {
     super()
 
-    this.state = { data: {}, errors: {}, categories: [] }
+    this.state = { data: {}, error: false, categories: [] }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -51,7 +51,8 @@ class SpotEdit extends React.Component {
 
   handleChange({ target: { name, value }}) {
     const data = {...this.state.data, [name]: value }
-    this.setState({ data })
+    const error = false
+    this.setState({ data, error })
   }
 
   handleSubmit(e) {
@@ -77,8 +78,9 @@ class SpotEdit extends React.Component {
           .then(() => {
             this.props.history.push(`/spots/${this.props.match.params.id}`)
           })
-          .catch(err => console.log(err))
+          .catch(() => this.setState({ error: true }))
       })
+      .catch(() => this.setState({ error: true }))
   }
 
   handleSelectCategory(value) {
@@ -154,7 +156,7 @@ class SpotEdit extends React.Component {
               </div>
               <div className="row">
                 <div className="col s12">
-                  <h6 htmlFor="artists">Select Artists*</h6>
+                  <h6 htmlFor="artists">Select Artist(s)*</h6>
                   <div>
                     <Select
                       value={this.state.data.artistValues}
@@ -171,7 +173,7 @@ class SpotEdit extends React.Component {
 
               <div className="row">
                 <div className="field input-field col s12">
-                  <h6 htmlFor="categories">Select Categories*</h6>
+                  <h6 htmlFor="categories">Select Categorie(s)*</h6>
                   <div>
                     <Select
                       value={this.state.data.categoryValues}
@@ -188,6 +190,7 @@ class SpotEdit extends React.Component {
               <div className="center-align">
                 <button className="btn waves-effect red accent-3 center-align">Submit</button>
               </div>
+              {this.state.error && <h6 className="red-text center-align">*Invalid Input</h6>}
             </form>
           </div>
         </div>

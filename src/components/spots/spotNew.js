@@ -14,7 +14,7 @@ class SpotNew extends React.Component {
   constructor() {
     super()
 
-    this.state = { data: {}, errors: {} }
+    this.state = { data: {}, error: false }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -41,8 +41,8 @@ class SpotNew extends React.Component {
 
   handleChange({ target: { name, value }}) {
     const data = {...this.state.data, [name]: value }
-    const errors = {...this.state.errors, [name]: ''}
-    this.setState({ data, errors })
+    const error = false
+    this.setState({ data, error })
   }
 
   handleSubmit(e) {
@@ -78,10 +78,11 @@ class SpotNew extends React.Component {
               .then(() => {
                 this.props.history.push('/home')
               })
-              .catch(err => this.setState({ errors: err.response.data.errors }))
+              .catch(() => this.setState({ error: true }))
           })
-          .catch(err => this.setState({ errors: err.response.data.errors }))
+          .catch(() => this.setState({ error: true }))
       })
+      .catch(() => this.setState({ error: true }))
   }
 
   // handleSelect(value) {
@@ -150,6 +151,7 @@ class SpotNew extends React.Component {
                   openModal={this.openModal}
                   image={this.state.image}
                 />
+                {this.state.error && <h6 className="red-text center-align">*Invalid Input</h6>}
                 <br />
               </div>
             </div>
