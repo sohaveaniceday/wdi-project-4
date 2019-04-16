@@ -5,7 +5,6 @@ const key = process.env.REACT_APP_OCD_API_KEY
 
 
 import Auth from '../../lib/auth'
-import SpotForm from './spotForm'
 
 // import * as filestack from 'filestack-js'
 // const client = filestack.init('AYoVZLJZuQ2GNd6qd87SYz')

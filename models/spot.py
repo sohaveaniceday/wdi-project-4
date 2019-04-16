@@ -45,7 +45,7 @@ class SpotSchema(ma.ModelSchema):
     'CommentSchema', many=True,
     only=('content', 'id', 'created_at', 'creator')
     )
-    images = fields.Nested('ImageSchema', many=True, only=('path', 'id'))
+    images = fields.Nested('ImageSchema', many=True, only=('path', 'id', 'creator'))
     categories = fields.Nested('CategorySchema', many=True, only=('name', 'id'))
     artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id', 'bio', 'image', 'spots'))
     creator = fields.Nested("UserSchema", only=('id', 'username'))

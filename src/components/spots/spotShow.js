@@ -64,6 +64,10 @@ class spotShow extends React.Component {
     return Auth.isAuthenticated() && this.state.spot.creator.id === Auth.getPayload().sub
   }
 
+  isImageOwner(image) {
+    return Auth.isAuthenticated() && image === Auth.getPayload().sub
+  }
+
   handleChange({ target: { name, value } }) {
     const comment = {...this.state.comment, [name]: value }
     const errors = {...this.state.errors, [name]: null }
@@ -123,6 +127,20 @@ class spotShow extends React.Component {
       .catch(err => this.setState({ errors: err.response.data.errors }))
   }
 
+  deleteImage(imageId) {
+    axios({
+      url: `/api/spots/${this.props.match.params.id}/images/${imageId}`,
+      method: 'Delete',
+      headers: {Authorization: `Bearer ${Auth.getToken()}`},
+      json: true
+    })
+      .then(() => {
+        this.getThisSpot()
+        this.setState({ sent: 'true', comment: {} })
+      })
+      .catch(err => this.setState({ errors: err.response.data.errors }))
+  }
+
   openModal() {
     const options = {
       fromSources: ['local_file_system','instagram','facebook'],
@@ -149,7 +167,7 @@ class spotShow extends React.Component {
   }
 
   render() {
-    console.log('likes', this.state.spot.liked_by)
+    console.log('spot', this.state.spot)
     return(
       <div className="container center-align">
         <div className="row">
@@ -180,7 +198,9 @@ class spotShow extends React.Component {
             <div className="col left-align l6 m12 s12">
               <Slider>
                 {this.state.spot.images.map((image, i) => (
-                  <Slide key={i} image={<img src={image.path} />}></Slide>))}
+                  <Slide key={i} image={<img src={image.path} />}>{i > 0 && image.creator && this.isImageOwner(image.creator.id) && <div className="caption right-align">
+                    <a href="/home" className="btn waves-effect red accent-3" onClick={() => this.deleteImage(image.id)}>Delete Image</a>
+                  </div>}</Slide>))}
               </Slider>
             </div>}
           </div>
