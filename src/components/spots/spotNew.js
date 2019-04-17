@@ -137,7 +137,7 @@ class SpotNew extends React.Component {
           <div className="container">
             <div className="container">
               <div className="row  no-margin">
-                <h2 className="col s12">New Spot</h2>
+                <h3 className="col s12">New Spot</h3>
                 <SpotForm
                   updateState={this.updateState}
                   handleChange={this.handleChange}

@@ -126,7 +126,7 @@ class SpotEdit extends React.Component {
       <div className="container">
         <div className="container">
           <div className="container">
-            <h2>Edit Spot</h2>
+            <h3>Edit Spot</h3>
             <form onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="input-field col s12">
