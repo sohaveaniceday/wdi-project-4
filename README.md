@@ -1,3 +1,3 @@
-# General Assembly SEI Project 4: Tag
+# General Assembly WDI Project 4: A Flack + React App
 
 Work in progress...
