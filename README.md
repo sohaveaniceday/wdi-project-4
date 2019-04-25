@@ -63,23 +63,23 @@ I hadn’t worked with maps before, which proved quite challenging but very rewa
 
 ### The user's homescreen is a centered map on the user's location, displaying all the nearby graffiti spots. The user also is given the option to search or create a new spot.
 
-![newsfeed](screenshots/homescreen.png)
+![homescreen](screenshots/homescreen.png)
 
 ### The show spot page displays all the relevant information for that spot, including images, location, artists, categories. The page also allows the user to like the spot, add additional images to the spot and leave a comment. If the user is the creator of the spot or images they have the option to edit or delete the spot.
 
-![recipe page](screenshots/show-spot.png)
+![show spot](screenshots/show-spot.png)
 
 ### The show artist modal, which activates once the artist is clicked, allows the user to read a short bio on the artist and also browse his other work.
 
-![review page](screenshots/show-artist.png)
+![show artist](screenshots/show-artist.png)
 
 ### The search page defaults to all results and allows the user to browse freely and narrow down results by spot name, artist or categories.
 
-![profile page](screenshots/search.png)
+![search](screenshots/search.png)
 
 ### The New Spot Form allows you to add new spots.
 
-![search](screenshots/new-spot.png)
+![new spot](screenshots/new-spot.png)
 
 ___
 
@@ -96,15 +96,16 @@ The functionality works seamlessly with the real world to allow the user to:
 * Add your own spots
 
 ### Process
-When we realised there were very few apps that incorporated both restaurant reviews and recipes (apps tend to lean to one or the other), we realised we had our USP. Once we had settled on our concept, we got to work on the project.
-1.  To work efficiently and effectively as a team, we used Trello to assign the various tasks amongst us. This was particularly useful when we were working remotely.
+Once I settled upon my idea I got to work on the project straight away.
+1.  To work efficiently I used Trello keep tabs of all my tasks.
 ![trello](screenshots/trello.png)
-2.  In order to understand how our app would work at a fundamental level we needed to draft out models and routes in a visual manner.
-![backend wireframe](screenshots/backend-wireframe.jpeg)
-3.  We then created wireframes for the front end to visualise how our backend would interact with it.
-4.  By day 2 we were happy with our respective wireframes, we began work on our backend: creating the models, controllers, and then routes, all in Node.js.
-5.  By the end of day 4 we had tested the backend using Insomnia and we were happy with the functionality. We then started work on the frontend: creating the app.js file, then creating the various components that would make up the app, all in React.
-6.  After day 6 we had reached an MVP level of completion, we began styling the app using the Bulma framework.
+2.  I used DB Designer to wireframe my backend and understand the relationships between the different models.
+![backend wireframe](screenshots/backendwireframe.png)
+3.  I then used Pencil to wireframe the pages for my frontend.
+![frontend wireframe](screenshots/frontend-wireframe.png)
+4.  By day 2 I was happy with the wireframes, so I began work on our backend: creating the models, controllers, and then routes, all in Python/Flask.
+5.  When I had created a sufficient seeds file and tested the routes in Insomnia I moved onto the front end using JavaScript/React.
+6.  After day 6 I had reached an MVP level of completion, I began styling the app using the Materlize framework.
 
 #### Featured piece of code 1
 
@@ -148,9 +149,9 @@ userSchema.virtual('reviews', {
 
 ### Styling
 
-We used the CSS framework Bulma to style our app. This would take some of the heavy lifting out of creating things like navbars etc., so we could focus more on the functionality of the site. We customised the default Bulma settings as much as we could to differentiate itself from other Bulma products - which generally look quite similar. This involved customising the buttons to feature icons, changing the curvature of the cards, and some of the navbar configuration.
+Using Materialize CSS framework eleviated a lot of the pain points, such as creating a custom navbar or modals. it was my first departure from Bulma as a CSS framework and I'm glad I made the transition. It was a lot more customisable and made my app look far less generic. Colours and functionality were aplenty, meaning there was always something else I wanted to use or test. The modals and image slideshows were particularly effective additions to my app.
 
-In future I would avoid using Bulma as we found it quite difficult to customise once we had applied its classes, and ended up being quite a time drain. In my next project I will try and use a different CSS framework like Materialise.
+As for the general style of the app, I wanted it to look super slick. As street art prides itself on its own sense of style, this made it incredibly important to get the tone of the app right. I experimented with many colours, finally landing upon hot red (#ff1744) and white. I kept things fairly minimalistic in terms of imagery with a couple of flourishes here and there.
 
 #### Featured piece of code 2
 
@@ -193,32 +194,15 @@ ___
 
 ### Wins and Blockers
 
-One of the biggest blockers for this project was creating a substantial seeds file that incorporated promised. As some models relied on other models in order to be created, we had to establish multiple promises in the seeds file in order for the database to accept certain models. For instance, in order for a review to exist, it must first have a user and categories in order to create the review - so we would create the user and categories first and then promise them to the review seed.
+The biggest blocker was working with Mapbox. I found some of the customisable elements and MapboxGeocoder quite difficult to implement, due to lack of instructions for React installation. It required a lot of additional css styling and documentation reading to finally find solutions for both. In the future I will look to use Google Maps or other map APIs as an alternative.
 
-``` JavaScript
-     return Promise.all([
-        Review.create([
-          {
-            'restaurantName': 'Noble Rot',
-            'reviewHeadline': 'So good!',
-            'reviewText': 'The very best restaurants are like your oldest friend.',
-            'rating': 5,
-            'image': 'https://infatuation.imgix.net/media/images/reviews/noble-rot-wine-bar/banners/1492493931.11.jpg?auto=format&h=840&w=1336',
-            'user': users[getRandom(4)]._id,
-            'categories': [categories[5]._id,categories[3]._id,categories[63]._id,categories[89]._id
-          }
-        )]
-      )]
-```
-
-As for wins, I'm really pleased with how the backend works and allows the user to do everything a normal social media platform would. The friends request system and the pinned items are particularly slick, allowing users to customise their experience of the site easily and efficiently. The newsfeed also works really nicely, making it feel like a real service.
+A huge win for this app was the responsiveness on mobile. I really wanted this to work best on mobile as I imagine that's how this app would be consumed the most on. I set about styling the app from mobile upwards - using sites like responsinator.com to check how it was looking on mobile. Thanks to Materlize this was really easy to accomplish - I shall be using this framework for any future mobile-centric apps.
 ___
 
 ## Future Features
 
 If we had more time essential future features we would like to add include:
 
-* Adding an external API, such as Zomato, to display locations of restaurants.
-* Ability to un-pin items and un-like reviews/recipes.
-* A shopping list functionality so you could keep all the ingredients you needed for your next shop on your app.
-* A simple cooking timer on the recipe pages to assist with timekeeping.
+* Recommended Routes - the ability to choose certain areas and have a dedicated route planned out which would stop at all the essential spots. It could even have 'The Banksy Walk', where it would join all of Banksy's work together.
+* Verified Artists - the ability for verified artists to claim anonymous pieces of art for themselves. Much like Twitter, artists could authenticate themselves as genuine.
+* Another API that could incorporate other places onto the maps. For instance, coffee shops or bars could be featured to make a more holistic experience for the user.
