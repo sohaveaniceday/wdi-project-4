@@ -2,8 +2,6 @@
 
 [Portfolio Link](http://wdi-tag.herokuapp.com/)
 
-Work in progress...
-
 Tag was my final project of the Web Development Immersive course at General Assembly. It was my first project to feature Python and Flask for the backend, and SQL for my API database. I worked solo to make sure I had a firm grasp on everything the app incorporated.
 
 ---
@@ -109,41 +107,40 @@ Once I settled upon my idea I got to work on the project straight away.
 
 #### Featured piece of code 1
 
-The User Schema was by far our most complicated model, as it had to contain the majority of datasets. It contained referenced models, as well as virtuals (for reviews and recipes) and a friends plugin. The friends plugin took quite a while to implement as the documentation wasn't as clear as I would have hoped. This was also my first experience with virtuals, which was quite challenging to understand at first.
+The Spot Model was the most complicated model as it incorporated most of the datasets and had various references to other tables. Links to other tables were made by referencing the ForeignKey of the linking dataset. Location had to be set by sepearting the Latitude and Longitude so these could be referenced by Mapbox later.
 
-``` JavaScript
+``` Python
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true, trim: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  name: { type: String, required: true },
-  categories: [ {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Category',
-    required: true
-  } ],
-  image: { type: String },
-  location: { type: String },
-  bio: { type: String },
-  pinnedRecipes: [ {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Recipe'
-  } ],
-  pinnedReviews: [ {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Review',
-    required: true
-  } ]
-})
+class Spot(db.Model, BaseModel):
 
-userSchema.plugin(friendsPlugin({ pathName: 'friends' }))
+    __tablename__ = 'spots'
 
-userSchema.virtual('reviews', {
-  ref: 'Review',
-  localField: '_id',
-  foreignField: 'user'
-})
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False, unique=True)
+    locationlat = db.Column(db.Float, nullable=False)
+    locationlon = db.Column(db.Float, nullable=False)
+    categories = db.relationship('Category',
+    secondary=categories_spots, backref='spots')
+    artists = db.relationship('Artist',
+    secondary=artists_spots, backref='spots')
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    creator = db.relationship('User', backref='created_spots')
+    liked_by = db.relationship('User', secondary=likes, backref='likes')
+
+
+class SpotSchema(ma.ModelSchema):
+    comments = fields.Nested(
+    'CommentSchema', many=True,
+    only=('content', 'id', 'created_at', 'creator')
+    )
+    images = fields.Nested('ImageSchema', many=True, only=('path', 'id', 'creator'))
+    categories = fields.Nested('CategorySchema', many=True, only=('name', 'id'))
+    artists = fields.Nested('ArtistSchema', many=True, only=('name', 'id', 'bio', 'image', 'spots'))
+    creator = fields.Nested("UserSchema", only=('id', 'username'))
+    liked_by = fields.Nested('UserSchema', many=True, only=('id', 'username'))
+
+    class Meta:
+        model = Spot
 
 ```
 
@@ -155,39 +152,33 @@ As for the general style of the app, I wanted it to look super slick. As street 
 
 #### Featured piece of code 2
 
-This is how we got our curated Newsfeed to work. It pulls in all the data from our API for recipes, reviews and user using an ```axios.all``` request. It then checks if the user is friends with the user who wrote the recipe/review - if yes, then then item will show. If not, it will check if the review shares any of the same categories as the user's preferences. It will finally check if the user is the author, and disregard the item if it's true.
+I was particularly proud of the artist modal that had to appear when the user clicked on the artist name on the show spot page. Once, launched it displayed the artist, a short bio and other works (which linked to their relevant spot). This was achieved by first mapping all of the artists onto the show spot page (as it allows for more than one), and then each artist having their own modal (a Materialize component) with all relevant info and mapping the various works of theirs.
 
 ``` JavaScript
 
-componentDidMount() {
-  axios.all([
-    axios.get(`/api/user/${Auth.getPayload().sub}`),
-    axios.get('/api/recipes'),
-    axios.get('/api/reviews')
-  ])
-    .then(res => {
-      const [ user, recipes, reviews ] = res
-      const recipeFeed = recipes.data.filter(recipe => {
-        return ((user.data.friends.some(friend => {
-          return (recipe.user.id.includes(friend._id) && friend.status !== 'pending')
-        })) || user.data.user.categories.some(category => {
-          return recipe.categories.some(categoryObject => {
-            return Object.values(categoryObject).includes(category._id)
-          })
-        }) && recipe.user.id !== Auth.getPayload().sub)
-      })
-      const reviewFeed = reviews.data.filter(review => {
-        return ((user.data.friends.some(friend => {
-          return (review.user.id.includes(friend._id) && friend.status !== 'pending')
-        })) || user.data.user.categories.some(category => {
-          return review.categories.some(categoryObject => {
-            return Object.values(categoryObject).includes(category._id)
-          })
-        }) && review.user.id !== Auth.getPayload().sub)
-      })
-      this.setState({ recipeFeed, reviewFeed, user })
-    })
-}
+  this.state.spot.artists.map((artist, i) => (
+    <Modal key={i} header={artist.name} ref={el => this.artistmodal = el} trigger={<span className="pointer"><a>{artist.name}</a> </span>}>
+      <div className="row valign-wrapper">
+        <div className="col s5 m2 l2">
+          <img src={artist.image} alt="" className="circle responsive-img" />
+        </div>
+        <div className="col s7 m10 l10">
+          <span className="black-text">
+            {artist.bio}
+          </span>
+        </div>
+      </div>
+      <h6><strong>More Works</strong></h6><br />
+      <div className="row">
+        {artist.spots.map((spot, i) => (
+          <Link key={i} to={`/spots/${spot.id}`} onClick="OpenCloseModal()">
+            <div className="col s6 m4 l3">
+              <img src={spot.images[0].path} alt="" className="rounded-img" />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </Modal>))
 
 ```
 ___
