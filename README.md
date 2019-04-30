@@ -197,3 +197,9 @@ If we had more time essential future features we would like to add include:
 * Recommended Routes - the ability to choose certain areas and have a dedicated route planned out which would stop at all the essential spots. It could even have 'The Banksy Walk', where it would join all of Banksy's work together.
 * Verified Artists - the ability for verified artists to claim anonymous pieces of art for themselves. Much like Twitter, artists could authenticate themselves as genuine.
 * Another API that could incorporate other places onto the maps. For instance, coffee shops or bars could be featured to make a more holistic experience for the user.
+
+___
+
+## Key Learnings
+
+Working solo for this project was both a curse and a blessing. Whilst it was a blessing in the sense I had a complete overview of everything the app did and how it worked, testing my knowledge to the limits, it did prove challenging when it came to issues as there was fewer people to assist. I found tasks took a lot longer than they did in the group projects, so I had to make sure I was prioritising my workload effectively. It meant I had to scale back my ambitions occasionally to allow me to reach the deadlines on time. I'm really pleased that I solved a problem in the real world, so this is definitely something I want to pursue more in my side projects going forward. This will require a lot more time spent when map and coordinate APIs, which can be quite challenging at times.
