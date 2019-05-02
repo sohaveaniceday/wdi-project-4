@@ -1,6 +1,6 @@
 # General Assembly WDI Project 4: A Flack + React App
 
-[Portfolio Link](http://wdi-tag.herokuapp.com/)
+[Deployed Project Link](http://wdi-tag.herokuapp.com/)
 
 Tag was my final project of the Web Development Immersive course at General Assembly. It was my first project to feature Python and Flask for the backend, and SQL for my API database. I worked solo to make sure I had a firm grasp on everything the app incorporated.
 
