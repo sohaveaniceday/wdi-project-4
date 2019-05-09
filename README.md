@@ -1,4 +1,4 @@
-# General Assembly WDI Project 4: A Flack + React App
+# General Assembly WDI Project 4: A Flask + React App
 
 [Deployed Project Link](http://wdi-tag.herokuapp.com/)
 
