@@ -6,7 +6,7 @@ class Search extends React.Component {
   constructor() {
     super()
     this.state = { data: {search: ''} }
-    // this.handleSubmit = this.handleSubmit.bind(this)
+
     this.handleChange = this.handleChange.bind(this)
   }
 
@@ -24,14 +24,12 @@ class Search extends React.Component {
     const data = {...this.state.data, [name]: value }
     const errors = {...this.state.errors, [name]: null }
     this.setState({ data, errors })
-    console.log(this.state.data.search)
     this.setState({ sent: true })
     axios.all([
       axios.get('/api/spots')
     ])
       .then(res => {
         const searchItem = this.state.data.search.toLowerCase()
-        console.log('res', res)
         const searchResults = res[0].data.filter(result => {
           return (result.name.toLowerCase().includes(searchItem) || result.categories.some(category => {
             return category.name.toLowerCase().includes(searchItem)
@@ -43,30 +41,9 @@ class Search extends React.Component {
         this.setState({ searchResults })
       })
   }
-  // handleSubmit(e) {
-  //   e.preventDefault()
-  //   this.setState({ sent: true })
-  //   axios.all([
-  //     axios.get('/api/spots')
-  //   ])
-  //     .then(res => {
-  //       const searchItem = this.state.data.search.toLowerCase()
-  //       console.log('res', res)
-  //       const searchResults = res[0].data.filter(result => {
-  //         return (result.name.toLowerCase().includes(searchItem) || result.categories.some(category => {
-  //           return category.name.toLowerCase().includes(searchItem)
-  //         }) || result.artists.some(artist => {
-  //           return artist.name.toLowerCase().includes(searchItem)
-  //         })
-  //         )
-  //       })
-  //       this.setState({ searchResults })
-  //     })
-  // }
+
   render() {
     const { data } = this.state
-    // console.log(search)
-    console.log('state', this.state)
     return (
       <div className={this.state.searchResults && this.state.searchResults.length < 4 ? 'home full-height' : 'home'}>
         <div className={this.state.searchResults ? 'container' : 'container full-height'}>

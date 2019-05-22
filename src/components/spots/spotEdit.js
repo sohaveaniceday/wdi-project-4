@@ -1,13 +1,9 @@
 import React from 'react'
 import axios from 'axios'
 import Select from 'react-select'
-const key = process.env.REACT_APP_OCD_API_KEY
-
-
 import Auth from '../../lib/auth'
 
-// import * as filestack from 'filestack-js'
-// const client = filestack.init('AYoVZLJZuQ2GNd6qd87SYz')
+const key = process.env.REACT_APP_OCD_API_KEY
 
 class SpotEdit extends React.Component {
   constructor() {
@@ -19,8 +15,6 @@ class SpotEdit extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleSelectArtist = this.handleSelectArtist.bind(this)
     this.handleSelectCategory = this.handleSelectCategory.bind(this)
-    // this.updateState = this.updateState.bind(this)
-    // this.openModal = this.openModal.bind(this)
   }
 
   componentDidMount() {
@@ -40,7 +34,6 @@ class SpotEdit extends React.Component {
       .then(res => {
         axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(res.data.locationlat)}+${encodeURIComponent(res.data.locationlon)}&key=${key}`)
           .then(ocdResponse => {
-            console.log('ocd', ocdResponse)
             const location = ocdResponse.data.results[0].formatted
             const data = {data: { name: res.data.name, location: location, categories: res.data.categories.map(({ id }) => id), artists: res.data.artists.map(({ id }) => id), artistValues: res.data.artists.map(artist => ({ value: artist.id, label: artist.name })), categoryValues: res.data.categories.map(category => ({ value: category.id, label: category.name }))}}
             this.setState(data)
@@ -60,7 +53,6 @@ class SpotEdit extends React.Component {
     const data = {...this.state.data}
     axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(data.location)}&key=${key}`)
       .then(ocdResponse => {
-        console.log('ocd', ocdResponse)
         const { lat, lng } = ocdResponse.data.results[0].geometry
         axios({
           url: `/api/spots/${this.props.match.params.id}`,
@@ -93,35 +85,9 @@ class SpotEdit extends React.Component {
     let data = null
     data = {...this.state.data, artists: value.map(({ value }) => value), artistValues: value.map(artist => ({ value: artist.value, label: artist.label })) }
     this.setState({ data })
-    console.log('val', value)
   }
-  // openModal() {
-  //   const options = {
-  //     fromSources: ['local_file_system','instagram','facebook'],
-  //     accept: ['image/*'],
-  //     transformations: {
-  //       crop: true,
-  //       circle: true,
-  //       rotate: true
-  //     },
-  //     onFileUploadFinished: (file) => {
-  //       this.setState({ image: file.url })
-  //     },
-  //     onFileUploadFailed: (file, error) => {
-  //       console.log('file', file)
-  //       console.log('error', error)
-  //     }
-  //   }
-  //   client.picker(options).open()
-  // }
-  //
-  // updateState(url){
-  //   console.log('updateState running')
-  //   console.log(url)
-  // }
 
   render() {
-    console.log('state', this.state)
     return (
       <div className="container">
         <div className="container">

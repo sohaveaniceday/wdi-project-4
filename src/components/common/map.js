@@ -28,12 +28,6 @@ class Map extends React.Component {
     this.setMarkers()
   }
 
-  //calls the setMarkers() function
-  // componentDidUpdate() {
-  //   this.setMarkers()
-  // }
-
-  //removes the markers first then returns the new set of markers
   setMarkers() {
     this.markers.forEach(marker => marker.remove())
     const center = this.props
@@ -59,9 +53,6 @@ class Map extends React.Component {
         .setLngLat({  lat: point.locationlat, lng: point.locationlon })
         .addTo(this.map)
         .setPopup(popup)
-      // return new mapboxgl.Marker()
-      //   .setLngLat({  lat: this.props.locationlat, lng: this.props.locationlon })
-      //   .addTo(this.map)
     })
     var el = document.createElement('div')
     el.className = 'center-marker'

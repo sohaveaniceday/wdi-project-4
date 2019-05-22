@@ -19,8 +19,6 @@ import SpotEdit from './components/spots/spotEdit'
 import Search from './components/search/searchResults'
 import ErrorPage from './components/errorPage'
 
-
-
 class App extends React.Component {
   componentDidMount() {
     axios.get('/api/spots')

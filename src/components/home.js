@@ -1,25 +1,17 @@
 import React from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 import Auth from '../lib/auth'
 import Map from './common/map'
-import { Link } from 'react-router-dom'
-
-
 
 class Home extends React.Component {
   constructor() {
     super()
 
     this.state = { data: {}, errors: {} }
-    //below is read only! Can't reassign in anything outside of state. If you need to update something, add it to state. Create this to stop you repeating yourself.
     this.mapCenter = { lat: 51.515, lng: -0.078 }
-
-    // this.handleClick = this.handleClick.bind(this)
-
   }
 
-  // the const is 'deconstructing' the object, basically shortening taking 2 keys into 1 line.
-  //the 'this.getBikePoints(lat, lng, 1000)' parses the data from this.mapCenter and '1000' into the getBikePoints function
   componentDidMount() {
     axios.get(`/api/users/${Auth.getPayload().sub}`)
       .then(res => this.setState({ data: res.data }))
@@ -27,7 +19,6 @@ class Home extends React.Component {
     this.getSpots(lat, lng, 8000)
   }
 
-  //this grabs from the TFL api. Params specifies the bits of information we need. The .then function takes the responses (res) and maps the places to a new state - points!
   getSpots(locationlat, locationlon, radius) {
     axios.get('/api/spots', {
       params: { locationlat, locationlon, radius }
@@ -38,9 +29,7 @@ class Home extends React.Component {
       })
   }
 
-
   render() {
-    console.log('state', this.state)
     return(
       <div className="home">
         <div className="container full-height">
@@ -70,5 +59,3 @@ class Home extends React.Component {
 }
 
 export default Home
-
-// {this.state.data.username && <h2>Hello {this.state.data.username}!</h2>}

@@ -1,9 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+
 const key = process.env.REACT_APP_OCD_API_KEY
-// const rp = require('request-promise')
-
-
 
 class Register extends React.Component {
   constructor() {
@@ -61,7 +59,6 @@ class Register extends React.Component {
       })
   }
 
-
   handleSelect(value) {
     let data = null
     data = {...this.state.data, categories: value.map(({ value }) => value) }
@@ -69,7 +66,6 @@ class Register extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>

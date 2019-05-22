@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "build": "webpack -p",
-      "postinstall": "[ \"$NODE_ENV\" = \"production\" ] && yarn build || exit 0",
-      "serve:react": "webpack-dev-server",
-      "serve:flask": "pipenv run flask run -p 4000"
-    },
+    "build": "webpack -p",
+    "postinstall": "[ \"$NODE_ENV\" = \"production\" ] && yarn build || exit 0",
+    "serve:react": "webpack-dev-server",
+    "serve:flask": "pipenv run flask run -p 4000"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -42,6 +42,7 @@
     "react-map-gl": "^4.1.1",
     "react-map-gl-geocoder": "^1.8.0",
     "react-materialize": "^3.0.4",
+    "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-select": "^2.4.2",
     "request": "^2.88.0",
