@@ -24,7 +24,6 @@ class Home extends React.Component {
       params: { locationlat, locationlon, radius }
     })
       .then(res => {
-        console.log('res', res)
         this.setState({ points: res.data })
       })
   }
