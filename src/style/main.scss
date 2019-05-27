@@ -1,0 +1,53 @@
+@import '~mapbox-gl/dist/mapbox-gl.css';
+@import "map";
+@import "landingpage";
+@import "home";
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  font-family: 'Barlow', sans-serif;
+}
+
+strong {
+  font-weight: 400;
+}
+
+.main-logo, .intro-logo {
+  font-family: 'Permanent Marker', cursive;
+}
+
+.margin-top {
+  margin: 100px 0 0 0;
+}
+
+.rounded-img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.full-height {
+  height: 92.9vh;
+}
+
+.no-top-margin {
+  margin: 0px;
+}
+
+.no-margin {
+  margin-bottom: 0px !important;
+}
+
+.some-top-padding {
+  padding: 100px 0 0 0;
+}

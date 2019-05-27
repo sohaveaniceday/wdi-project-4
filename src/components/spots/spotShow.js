@@ -72,7 +72,6 @@ class spotShow extends React.Component {
     const comment = {...this.state.comment, [name]: value }
     const errors = {...this.state.errors, [name]: null }
     this.setState({ comment, errors })
-    console.log(this.state)
   }
 
   handleSubmit(e) {
@@ -120,9 +119,6 @@ class spotShow extends React.Component {
         this.getThisSpot()
         this.setState({ sent: 'true', comment: {} })
         document.location.reload(true)
-        // const instance = M.Modal.getInstance(this.modal)
-        // console.log(instance)
-        // instance.close()
       })
       .catch(err => this.setState({ errors: err.response.data.errors }))
   }
@@ -167,7 +163,6 @@ class spotShow extends React.Component {
   }
 
   render() {
-    console.log('spot', this.state.spot)
     return(
       <div className="container center-align">
         <div className="row">

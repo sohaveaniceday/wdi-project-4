@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './style.scss'
+import './style/main.scss'
 import { BrowserRouter as Browser, Route, Switch } from 'react-router-dom'
-import axios from 'axios'
 
 import 'materialize-css'
 import 'materialize-css/dist/css/materialize.min.css'
@@ -19,32 +18,26 @@ import SpotEdit from './components/spots/spotEdit'
 import Search from './components/search/searchResults'
 import ErrorPage from './components/errorPage'
 
-class App extends React.Component {
-  componentDidMount() {
-    axios.get('/api/spots')
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err))
-  }
+const App = () => {
 
-  render() {
-    return (
-      <Browser>
-        <Nav />
-        <Switch>
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <SecureRoute path="/spots/new" component={SpotNew} />
-          <SecureRoute path="/spots/:id/edit" component={SpotEdit} />
-          <SecureRoute path="/spots/:id" component={SpotShow} />
-          <SecureRoute path="/search" component={Search} />
-          <SecureRoute exact path="/home" component={Home} />
-          <Route exact path="/" component={Landing} />
-          <Route path="/*" component={ErrorPage} />
-        </Switch>
-      </Browser>
-    )
-  }
+  return (
+    <Browser>
+      <Nav />
+      <Switch>
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+        <SecureRoute path="/spots/new" component={SpotNew} />
+        <SecureRoute path="/spots/:id/edit" component={SpotEdit} />
+        <SecureRoute path="/spots/:id" component={SpotShow} />
+        <SecureRoute path="/search" component={Search} />
+        <SecureRoute exact path="/home" component={Home} />
+        <Route exact path="/" component={Landing} />
+        <Route path="/*" component={ErrorPage} />
+      </Switch>
+    </Browser>
+  )
 }
+
 
 ReactDOM.render(
   <App />,
